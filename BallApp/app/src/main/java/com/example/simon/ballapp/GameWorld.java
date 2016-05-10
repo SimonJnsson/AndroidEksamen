@@ -113,11 +113,6 @@ public class GameWorld extends SurfaceView implements Runnable
 
         gameObjects.add(player);
 
-        gameObjects.add(new Enemy(context, 250, 250, 15));
-        gameObjects.add(new Enemy(context, 500, 400, 15));
-        gameObjects.add(new Enemy(context, 780, 100, 15));
-        gameObjects.add(new Enemy(context, 1000, 950, 15));
-
         //soundPool.play(start, 1, 1, 0, 0, 1);
     }
 

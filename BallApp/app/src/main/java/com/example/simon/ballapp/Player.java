@@ -37,33 +37,13 @@ public class Player extends GameObject implements SensorEventListener
     {
         super.update();
 
-        // Player update logic
-
-        // If the player moves outside of screen view
-        // Move it to the opposite side
-        if (x > scrWidth)
-        {
-            x = 0;
-        }
-        if (y > scrHeight)
-        {
-            y = 0;
-        }
-        if (x < 0)
-        {
-            x = scrWidth;
-        }
-        if (y < 0)
-        {
-            y = scrHeight;
-        }
     }
 
     @Override
     public void onSensorChanged(SensorEvent event)
     {
         x += -event.values[0] * 2;
-        y += event.values[1] * 2;
+        //y += event.values[1] * 2;
     }
 
     @Override
