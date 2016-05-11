@@ -23,6 +23,11 @@ abstract public class GameObject
         return paint;
     }
 
+    public void setPaint(Paint paint)
+    {
+        this.paint = paint;
+    }
+
     protected Paint paint;
 
     public float getX()
