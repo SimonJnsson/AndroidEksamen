@@ -109,7 +109,7 @@ public class GameWorld extends SurfaceView implements Runnable
         playing = true;
 
         //Initialize game objects
-        player = new Player(context, screenX / 2, screenY / 2, 10);
+        player = new Player(context, screenX / 2 - 50, screenY - 125, screenX / 2 + 50, screenY - 100);
 
         gameObjects.add(player);
 
@@ -187,16 +187,13 @@ public class GameWorld extends SurfaceView implements Runnable
             //First we lock the area of memory we will be drawing to
             canvas = ourHolder.lockCanvas();
 
-
             // Rub out the last frame
             canvas.drawColor(Color.argb(255, 0, 0, 0));
 
-            // Test draw circle
-            //paint.setColor(0xFF00FF00);
-
             for (GameObject go : gameObjects)
             {
-                canvas.drawCircle(go.x, go.y, go.getR(), go.getPaint());
+                canvas.drawRect(go.getObjRect(), go.getPaint());
+                //canvas.drawCircle(go.x, go.y, go.getR(), go.getPaint());
             }
 
             if (gameEnded)

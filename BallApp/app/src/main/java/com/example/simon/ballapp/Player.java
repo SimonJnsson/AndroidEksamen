@@ -16,10 +16,11 @@ public class Player extends GameObject implements SensorEventListener
     private int color;
     DisplayMetrics metrics;
     int scrWidth, scrHeight;
+    private float speed;
 
-    public Player(Context context, int screenX, int screenY, float radius)
+    public Player(Context context, int left, int top, int right, int bottom)
     {
-        super(context, screenX, screenY, radius);
+        super(context, left, top, right, bottom);
 
         paint.setColor(0xFF00FF00);
 
@@ -30,6 +31,8 @@ public class Player extends GameObject implements SensorEventListener
         metrics = Resources.getSystem().getDisplayMetrics();
         scrHeight = metrics.heightPixels;
         scrWidth = metrics.widthPixels;
+
+        speed = 3;
     }
 
     @Override
@@ -37,13 +40,24 @@ public class Player extends GameObject implements SensorEventListener
     {
         super.update();
 
+        if (objRect.left < 0)
+        {
+            objRect.left = 0;
+        }
+        else if (objRect.right > scrWidth)
+        {
+            objRect.right = scrWidth;
+        }
     }
 
     @Override
     public void onSensorChanged(SensorEvent event)
     {
-        x += -event.values[0] * 2;
-        //y += event.values[1] * 2;
+        if (objRect.left + event.values[1] * speed > 0 && objRect.right + event.values[1] * speed < scrWidth)
+        {
+            objRect.left += event.values[1] * speed;
+            objRect.right += event.values[1] * speed;
+        }
     }
 
     @Override
