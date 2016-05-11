@@ -42,6 +42,7 @@ public class GameWorld extends SurfaceView implements Runnable
     private Paint paint;
     private Canvas canvas;
     private SurfaceHolder ourHolder;
+    private Brick brick;
 
     static ArrayList<GameObject> getGameObjects()
     {
@@ -85,8 +86,7 @@ public class GameWorld extends SurfaceView implements Runnable
             bump = soundPool.load(descriptor, 0);
             descriptor = assetManager.openFd("destroyed.ogg");
             destroyed = soundPool.load(descriptor, 0);
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             //Print an error message to the console
             Log.e("error", "failed to load sound files");
@@ -112,6 +112,7 @@ public class GameWorld extends SurfaceView implements Runnable
         player = new Player(context, screenX / 2 - 50, screenY - 125, screenX / 2 + 50, screenY - 100);
 
         gameObjects.add(player);
+        Spawnbrick();
 
         //soundPool.play(start, 1, 1, 0, 0, 1);
     }
@@ -138,8 +139,7 @@ public class GameWorld extends SurfaceView implements Runnable
         try
         {
             gameThread.join();
-        }
-        catch (InterruptedException e)
+        } catch (InterruptedException e)
         {
 
         }
@@ -261,8 +261,7 @@ public class GameWorld extends SurfaceView implements Runnable
         try
         {
             gameThread.sleep(17);
-        }
-        catch (InterruptedException e)
+        } catch (InterruptedException e)
         {
         }
     }
@@ -290,6 +289,54 @@ public class GameWorld extends SurfaceView implements Runnable
                 break;
         }
         return true;
+    }
+
+    public void Spawnbrick()
+    {
+        int brickWidth = screenX / 10;
+        int brickHeight = screenY / 15;
+        float horizontalSpace = screenX * 0.005f;
+        for (int column = 0; column < 9; column++)
+        {
+            float verticalSpace = screenX * 0.005f;
+            for (int row = 0; row < 6; row++)
+            {
+                brick = new Brick(context, column * brickWidth + horizontalSpace, row * brickHeight + verticalSpace, brickWidth * (column + 1) + horizontalSpace, brickHeight * (row + 1) + verticalSpace);
+                switch (row)
+                {
+                    case 0:
+                        brick.getPaint().setColor(0xFF24BFF2);
+                        //brick.paint.setColor(0xFF00FF00);
+                        break;
+                    case 1:
+                        brick.getPaint().setColor(0xFF24F27D);
+                        break;
+                    case 2:
+                        brick.getPaint().setColor(0xFFF2E424);
+                        break;
+                    case 3:
+                        brick.getPaint().setColor(0xFFE041D3);
+                        break;
+                    case 4:
+                        brick.getPaint().setColor(0xFFE04441);
+                        break;
+                    case 5:
+                        brick.getPaint().setColor(0xFF41E041);
+                        break;
+                }
+                gameObjects.add(brick);
+                verticalSpace += screenX * 0.012f;
+            }
+            horizontalSpace += screenX * 0.012f;
+        }
+
+
+
+        //  brick = new Brick(context, 0 * brickWidth, 0, brickWidth * (0 + 1), brickHeight);
+        //  gameObjects.add(brick);
+
+        // brick = new Brick(context, 1 * brickWidth, 0, brickWidth * (1+1), brickHeight);
+        // gameObjects.add(brick);
     }
 }
 
