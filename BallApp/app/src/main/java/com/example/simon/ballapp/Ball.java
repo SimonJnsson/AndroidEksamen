@@ -3,28 +3,32 @@ package com.example.simon.ballapp;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 /**
  * Created by Patrick Q Jensen on 10-05-2016.
  */
-public class Ball extends GameObject {
+public class Ball extends GameObject
+{
 
     private int color;
     DisplayMetrics metrics;
     int scrWidth, scrHeight;
     float speedY, speedX;
+    float radius;
 
-    public Ball(Context context, float left, float top, float right, float bottom) {
-        super(context,left,top,right,bottom);
+    public Ball(Context context, float left, float top, float right, float bottom)
+    {
+        super(context, left, top, right, bottom);
 
         paint.setColor(0xFF00FF00);
 
         metrics = Resources.getSystem().getDisplayMetrics();
         scrHeight = metrics.heightPixels;
         scrWidth = metrics.widthPixels;
-        speedX = 20;
-        speedY = 20;
-
+        speedX = 5;
+        speedY = 5;
+        radius = objRect.right - objRect.left;
     }
 
     @Override
@@ -32,24 +36,18 @@ public class Ball extends GameObject {
     {
         super.update();
 
-        if (objRect.right >= scrWidth)
-        {
-            speedX *= -1;
-        }
-         if (objRect.left <= 0)
+        if (objRect.right >= scrWidth || objRect.left <= 0)
         {
             speedX *= -1;
         }
 
-        if (objRect.top <= 0)
+        if (objRect.top <= 0 || objRect.bottom >= scrHeight)
         {
             speedY *= -1;
+            Log.v("Log", "Bottom: " + objRect.bottom);
+            Log.v("Log", "Top: " + objRect.top);
         }
 
-        if (objRect.bottom >= scrHeight)
-        {
-            speedY *= -1;
-        }
 
         // if (y > ?player.y?)
         //{player loses 1 life, respawn ball}
@@ -81,7 +79,7 @@ public class Ball extends GameObject {
     public void Move()
     {
         //x += speedX;
-      //  y += speedY;
+        //  y += speedY;
 
         objRect.left += speedX;
         objRect.right += speedX;
@@ -91,7 +89,6 @@ public class Ball extends GameObject {
 
 
     }
-
 
 
 }

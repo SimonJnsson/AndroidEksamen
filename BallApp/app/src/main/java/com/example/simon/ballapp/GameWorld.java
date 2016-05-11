@@ -36,6 +36,7 @@ public class GameWorld extends SurfaceView implements Runnable
 
     //Game objects
     private Player player;
+    private Ball ball;
     static ArrayList<GameObject> gameObjects = new ArrayList<GameObject>();
 
     // For drawing
@@ -86,7 +87,8 @@ public class GameWorld extends SurfaceView implements Runnable
             bump = soundPool.load(descriptor, 0);
             descriptor = assetManager.openFd("destroyed.ogg");
             destroyed = soundPool.load(descriptor, 0);
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             //Print an error message to the console
             Log.e("error", "failed to load sound files");
@@ -109,8 +111,10 @@ public class GameWorld extends SurfaceView implements Runnable
         playing = true;
 
         //Initialize game objects
-        player = new Player(context, screenX / 2 - 50, screenY - 125, screenX / 2 + 50, screenY - 100);
+        player = new Player(context, screenX / 2 - 50, screenY - 50, screenX / 2 + 50, screenY - 25);
+        ball = new Ball(context, screenX / 2 - 5, screenY - 110, screenX / 2 + 5, screenY - 100);
 
+        gameObjects.add(ball);
         gameObjects.add(player);
         Spawnbrick();
 
@@ -139,7 +143,8 @@ public class GameWorld extends SurfaceView implements Runnable
         try
         {
             gameThread.join();
-        } catch (InterruptedException e)
+        }
+        catch (InterruptedException e)
         {
 
         }
@@ -192,7 +197,14 @@ public class GameWorld extends SurfaceView implements Runnable
 
             for (GameObject go : gameObjects)
             {
-                canvas.drawRect(go.getObjRect(), go.getPaint());
+                if (go instanceof Ball)
+                {
+                    canvas.drawCircle(go.getObjRect().left, go.getObjRect().bottom, ((Ball) go).radius, go.getPaint());
+                }
+                else
+                {
+                    canvas.drawRect(go.getObjRect(), go.getPaint());
+                }
                 //canvas.drawCircle(go.x, go.y, go.getR(), go.getPaint());
             }
 
@@ -250,7 +262,6 @@ public class GameWorld extends SurfaceView implements Runnable
 //                }
             }
 
-
             // Unlock and draw the scene
             ourHolder.unlockCanvasAndPost(canvas);
         }
@@ -261,7 +272,8 @@ public class GameWorld extends SurfaceView implements Runnable
         try
         {
             gameThread.sleep(17);
-        } catch (InterruptedException e)
+        }
+        catch (InterruptedException e)
         {
         }
     }
@@ -329,7 +341,6 @@ public class GameWorld extends SurfaceView implements Runnable
             }
             horizontalSpace += screenX * 0.012f;
         }
-
 
 
         //  brick = new Brick(context, 0 * brickWidth, 0, brickWidth * (0 + 1), brickHeight);
