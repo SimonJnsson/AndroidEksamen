@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
+public class MenuActivity extends AppCompatActivity implements View.OnClickListener
+{
 
-    Button btnPlay,btnOptions;
+    Button btnPlay, btnOptions;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         btnPlay = (Button) findViewById(R.id.btnPlay);
@@ -21,7 +24,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         if (v.equals(btnPlay))
         {
             Intent i = new Intent(this, TiltBallActivity.class);

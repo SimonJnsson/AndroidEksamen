@@ -8,7 +8,7 @@ import android.util.Log;
 
 abstract public class GameObject
 {
-    protected float x, y, width, height;
+    protected float x, y;
     protected RectF objRect;
 
     public RectF getObjRect()
@@ -23,23 +23,8 @@ abstract public class GameObject
         return paint;
     }
 
-    public void setPaint(Paint paint)
-    {
-        this.paint = paint;
-    }
 
     protected Paint paint;
-
-    public float getX()
-
-    {
-        return x;
-    }
-
-    public float getY()
-    {
-        return y;
-    }
 
 
     // Constructor
@@ -67,6 +52,7 @@ abstract public class GameObject
 
     public boolean hasCollision(GameObject go)
     {
+        // Return true if the 2 rectangles intersect
         return RectF.intersects(objRect, go.getObjRect());
     }
 }

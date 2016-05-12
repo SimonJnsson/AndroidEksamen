@@ -25,7 +25,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".MenuActivity"/>
-        <activity android:name=".OptionsMenuActivity"></activity>
+        <activity android:name=".OptionsMenuActivity"/>
+        <activity android:name=".ScoreActivity">
+        </activity>
     </application>
 
 </manifest>

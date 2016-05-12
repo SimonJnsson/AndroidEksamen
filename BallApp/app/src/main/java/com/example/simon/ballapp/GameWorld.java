@@ -117,8 +117,6 @@ public class GameWorld extends SurfaceView implements Runnable
         gameObjects.add(ball);
         gameObjects.add(player);
         Spawnbrick();
-
-        //soundPool.play(start, 1, 1, 0, 0, 1);
     }
 
     @Override
@@ -161,28 +159,11 @@ public class GameWorld extends SurfaceView implements Runnable
 
     private void update()
     {
-        // Collision detection on new positions
-        // Before move because we are testing last frames
-        // position which has just been drawn
-        boolean hitDetected = false;
-
-        if (hitDetected)
-        {
-            soundPool.play(bump, 1, 1, 0, 0, 1);
-        }
-
         // Update the GameObjects
         for (GameObject go : gameObjects)
         {
             go.update();
         }
-
-        //Completed the game!
-//        if (won)
-//        {
-//            // Now end the game
-//            gameEnded = true;
-//        }
     }
 
     private void draw()
@@ -215,51 +196,6 @@ public class GameWorld extends SurfaceView implements Runnable
                 paint.setTextSize(80);
                 paint.setTextAlign(Paint.Align.CENTER);
                 canvas.drawText("Game Over", screenX / 2, 100, paint);
-            }
-
-
-            // For debugging
-            // Switch to white pixels
-//            paint.setColor(Color.argb(255, 255, 255, 255));
-//
-//            // Draw Hit boxes
-//            canvas.drawRect(player.getHitbox().left,
-//                    player.getHitbox().top,
-//                    player.getHitbox().right,
-//                    player.getHitbox().bottom,
-//                    paint);
-//
-
-            // Draw the player
-            //canvas.drawBitmap(player.getBitmap(), player.getX(), player.getY(), paint);
-
-            // Draw the enemies
-//            for (GameObject go : gameObjects)
-//            {
-//                canvas.drawBitmap(go.getBitmap(), go.getX(), go.getY(), paint);
-//            }
-
-            {
-//                if (!gameEnded)
-//                {
-//                    // Draw the hud
-//                    paint.setTextAlign(Paint.Align.LEFT);
-//                    paint.setColor(Color.argb(255, 255, 255, 255));
-//                    paint.setTextSize(25);
-//                    canvas.drawText("Fastest: s", 10, 20, paint);
-//                    //canvas.drawText("Time: " + timeTaken + "s", screenX / 2, 20, paint);
-//                    canvas.drawText("Distance: KM", screenX / 3, screenY - 20, paint);
-//                }
-//                else if (gameEnded && timeTaken > 0)
-//                {
-//                    //this happens when the game is ended
-//                    // Show pause screen
-//                    paint.setTextSize(80);
-//                    paint.setTextAlign(Paint.Align.CENTER);
-//                    canvas.drawText("Game Over", screenX / 2, 100, paint);
-//                    paint.setTextSize(25);
-//                    canvas.drawText("Fastest: s", screenX / 2, 160, paint);
-//                }
             }
 
             // Unlock and draw the scene
@@ -341,13 +277,6 @@ public class GameWorld extends SurfaceView implements Runnable
             }
             horizontalSpace += screenX * 0.012f;
         }
-
-
-        //  brick = new Brick(context, 0 * brickWidth, 0, brickWidth * (0 + 1), brickHeight);
-        //  gameObjects.add(brick);
-
-        // brick = new Brick(context, 1 * brickWidth, 0, brickWidth * (1+1), brickHeight);
-        // gameObjects.add(brick);
     }
 }
 
