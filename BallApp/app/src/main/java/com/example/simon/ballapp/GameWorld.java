@@ -16,6 +16,7 @@ import android.view.SurfaceView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameWorld extends SurfaceView implements Runnable
 {
@@ -37,7 +38,7 @@ public class GameWorld extends SurfaceView implements Runnable
     //Game objects
     private Player player;
     private Ball ball;
-    static ArrayList<GameObject> gameObjects = new ArrayList<GameObject>();
+    static CopyOnWriteArrayList<GameObject> gameObjects = new CopyOnWriteArrayList<GameObject>();
 
     // For drawing
     private Paint paint;
@@ -45,7 +46,7 @@ public class GameWorld extends SurfaceView implements Runnable
     private SurfaceHolder ourHolder;
     private Brick brick;
 
-    static ArrayList<GameObject> getGameObjects()
+    static CopyOnWriteArrayList<GameObject> getGameObjects()
     {
         return gameObjects;
     }
@@ -178,14 +179,14 @@ public class GameWorld extends SurfaceView implements Runnable
 
             for (GameObject go : gameObjects)
             {
-                if (go instanceof Ball)
-                {
-                    canvas.drawCircle(go.getObjRect().left, go.getObjRect().bottom, ((Ball) go).radius, go.getPaint());
-                }
-                else
-                {
-                    canvas.drawRect(go.getObjRect(), go.getPaint());
-                }
+//                if (go instanceof Ball)
+//                {
+//                    canvas.drawCircle(go.getObjRect().left, go.getObjRect().bottom, ((Ball) go).radius, go.getPaint());
+//                }
+//                else
+//                {
+                canvas.drawRect(go.getObjRect(), go.getPaint());
+//                }
                 //canvas.drawCircle(go.x, go.y, go.getR(), go.getPaint());
             }
 

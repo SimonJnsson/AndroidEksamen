@@ -26,8 +26,8 @@ public class Ball extends GameObject
         metrics = Resources.getSystem().getDisplayMetrics();
         scrHeight = metrics.heightPixels;
         scrWidth = metrics.widthPixels;
-        speedX = 5;
-        speedY = 5;
+        speedX = 8;
+        speedY = 8;
         radius = objRect.right - objRect.left;
     }
 
@@ -44,8 +44,6 @@ public class Ball extends GameObject
         if (objRect.top <= 0 || objRect.bottom >= scrHeight)
         {
             speedY *= -1;
-            Log.v("Log", "Bottom: " + objRect.bottom);
-            Log.v("Log", "Top: " + objRect.top);
         }
 
 
@@ -86,9 +84,46 @@ public class Ball extends GameObject
 
         objRect.top += speedY;
         objRect.bottom += speedY;
+    }
 
+    public void RevertX()
+    {
+        speedX *= -1;
+    }
 
+    public void RevertY()
+    {
+        speedY *= -1;
     }
 
 
+    @Override
+    void onCollision(GameObject other)
+    {
+        if (!(other instanceof Player) && other instanceof Brick)
+        {
+            if (objRect.bottom >= other.objRect.bottom) // if the ball hits from below
+            {
+                RevertY();
+            }
+            else if (objRect.right >= other.objRect.right) // If the ball hits the right side
+            {
+                RevertX();
+            }
+            else if (objRect.top <= other.objRect.top) // if the ball hits from above
+            {
+                RevertY();
+            }
+            else if (objRect.left <= other.objRect.left) // If the ball hits the left side
+            {
+                RevertX();
+            }
+
+            ((Brick) other).destroy();
+        }
+        else
+        {
+            RevertY();
+        }
+    }
 }

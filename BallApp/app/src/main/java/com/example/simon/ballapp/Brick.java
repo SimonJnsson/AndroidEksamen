@@ -10,7 +10,9 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
+
 /**
  * Created by Danamian on 10-05-2016.
  */
@@ -21,5 +23,15 @@ public class Brick extends GameObject
         super(context, screenX, screenY, screenHeight, screenWidth);
 
         paint.setColor(0xFF00FF00);
+    }
+
+    public void destroy()
+    {
+        GameWorld.getGameObjects().remove(this); // Remove the other object
+    }
+
+    @Override
+    void onCollision(GameObject other)
+    {
     }
 }

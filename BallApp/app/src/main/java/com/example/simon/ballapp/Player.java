@@ -65,4 +65,10 @@ public class Player extends GameObject implements SensorEventListener
     {
 
     }
+
+    @Override
+    void onCollision(GameObject other)
+    {
+
+    }
 }
