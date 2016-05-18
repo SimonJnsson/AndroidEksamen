@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.RectF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -17,8 +18,12 @@ public class Player extends GameObject implements SensorEventListener
 {
     private int color;
     DisplayMetrics metrics;
-    int scrWidth, scrHeight;
+    int scrWidth, scrHeight, lives;
     private float speed;
+    private RectF startRect;
+    int scrWidth, scrHeight, powerupTimer;
+    private float speed;
+    private boolean speedPowerup = false, ballPowerup = false;
 
     private Bitmap bitmap;
 
@@ -35,6 +40,8 @@ public class Player extends GameObject implements SensorEventListener
         scrHeight = metrics.heightPixels;
         scrWidth = metrics.widthPixels;
         paint.setColor(0xFF00FF00);
+
+        lives = 3;
         speed = 3;
     }
 
@@ -50,6 +57,16 @@ public class Player extends GameObject implements SensorEventListener
         else if (objRect.right > scrWidth)
         {
             objRect.right = scrWidth;
+        }
+
+        if (speedPowerup)
+        {
+            powerupTimer++;
+            if (powerupTimer <= 300)
+            {
+                speedPowerup = false;
+                speed = 3;
+            }
         }
     }
 
@@ -77,5 +94,27 @@ public class Player extends GameObject implements SensorEventListener
     public void setBitmap(Bitmap bitmap)
     {
         this.bitmap = bitmap;
+    @Override
+    void onCollision(GameObject other)
+    {
+        if (other instanceof Powerup)
+        {
+            if (((Powerup) other).r == 1)
+            {
+                speed = 6;
+                speedPowerup = true;
+            }
+            else if (((Powerup) other).r == 2)
+            {
+                GameWorld.gameObjects.add(new Ball(context, GameWorld.getScreenX() / 2 - 5, GameWorld.getScreenY() - 110, GameWorld.getScreenX() / 2 + 5, GameWorld.getScreenY() - 100));
+
+            }
+            else if (((Powerup) other).r == 3)
+            {
+
+            }
+
+        }
+
     }
 }

@@ -16,6 +16,7 @@ import android.view.SurfaceView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameWorld extends SurfaceView implements Runnable
 {
@@ -23,8 +24,18 @@ public class GameWorld extends SurfaceView implements Runnable
     static private boolean gameEnded;
 
     static Thread gameThread = null;
-    private int screenX;
-    private int screenY;
+
+    static int getScreenX() {
+        return screenX;
+    }
+
+    static int screenX;
+
+    static int getScreenY() {
+        return screenY;
+    }
+
+    static int screenY;
     private Context context;
     private MapChanger mapChanger;
     // Sound
@@ -34,10 +45,15 @@ public class GameWorld extends SurfaceView implements Runnable
     int destroyed = -1;
     int win = -1;
 
+    static Player getPlayer()
+    {
+        return player;
+    }
+
     //Game objects
-    private Player player;
+    static Player player;
     private Ball ball;
-    static ArrayList<GameObject> gameObjects = new ArrayList<GameObject>();
+    static CopyOnWriteArrayList<GameObject> gameObjects = new CopyOnWriteArrayList<GameObject>();
 
     // For drawing
     private Paint paint;
@@ -45,7 +61,7 @@ public class GameWorld extends SurfaceView implements Runnable
     private SurfaceHolder ourHolder;
     private Brick brick;
 
-    static ArrayList<GameObject> getGameObjects()
+    static CopyOnWriteArrayList<GameObject> getGameObjects()
     {
         return gameObjects;
     }
@@ -108,6 +124,7 @@ public class GameWorld extends SurfaceView implements Runnable
 
     private void startGame()
     {
+        gameObjects.clear();
         gameEnded = false;
         playing = true;
 
@@ -160,6 +177,11 @@ public class GameWorld extends SurfaceView implements Runnable
 
     private void update()
     {
+        if (player.lives <= 0)
+        {
+            gameEnded = true;
+        }
+
         // Update the GameObjects
         for (GameObject go : gameObjects)
         {
@@ -198,6 +220,8 @@ public class GameWorld extends SurfaceView implements Runnable
                     canvas.drawRect(go.getObjRect(), go.getPaint());
                 }
                 //canvas.drawCircle(go.x, go.y, go.getR(), go.getPaint());
+
+                canvas.drawRect(go.getObjRect(), go.getPaint());
             }
 
             if (gameEnded)
@@ -234,7 +258,6 @@ public class GameWorld extends SurfaceView implements Runnable
 
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK)
         {
-
             // Has the player lifted their finger up?
             case MotionEvent.ACTION_UP:
                 break;
@@ -244,6 +267,10 @@ public class GameWorld extends SurfaceView implements Runnable
                 if (gameEnded)
                 {
                     startGame();
+                }
+                if (!ball.isCanMove())
+                {
+                    ball.setCanMove(true);
                 }
                 break;
         }

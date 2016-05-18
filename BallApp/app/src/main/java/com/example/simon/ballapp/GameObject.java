@@ -41,10 +41,9 @@ abstract public class GameObject
     {
         for (GameObject go : GameWorld.getGameObjects())
         {
-            if (go instanceof Ball && go != this && hasCollision(go))
+            if (go != this && hasCollision(go))
             {
-                // Collision with an other game object happened of type Player
-                // Handle collision here
+                onCollision(go);
             }
         }
     }
@@ -54,4 +53,6 @@ abstract public class GameObject
         // Return true if the 2 rectangles intersect
         return RectF.intersects(objRect, go.getObjRect());
     }
+
+    abstract void onCollision(GameObject other);
 }
