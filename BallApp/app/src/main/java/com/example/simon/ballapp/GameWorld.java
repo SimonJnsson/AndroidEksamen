@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
@@ -25,13 +26,15 @@ public class GameWorld extends SurfaceView implements Runnable
 
     static Thread gameThread = null;
 
-    static int getScreenX() {
+    static int getScreenX()
+    {
         return screenX;
     }
 
     static int screenX;
 
-    static int getScreenY() {
+    static int getScreenY()
+    {
         return screenY;
     }
 
@@ -74,9 +77,12 @@ public class GameWorld extends SurfaceView implements Runnable
         // Attempt to load sounds
         loadSounds();
 
+        Typeface typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/game_over.ttf");
+
         // Initialize our drawing objects
         ourHolder = getHolder();
         paint = new Paint();
+        paint.setTypeface(typeFace);
         mapChanger = new MapChanger(context);
 
         screenX = x;
@@ -205,23 +211,23 @@ public class GameWorld extends SurfaceView implements Runnable
                 {
                     canvas.drawCircle(go.getObjRect().left, go.getObjRect().bottom, ((Ball) go).radius, go.getPaint());
                 }
-                else if(go instanceof Brick)
+                else if (go instanceof Brick)
                 {
                     //canvas.drawRect(go.getObjRect(), go.getPaint());
                     canvas.drawBitmap(((Brick) go).getBitmap(), ((Brick) go).getObjRect().left, ((Brick) go).getObjRect().top, paint);
                 }
-              //  else if(go instanceof Player)
-              //  {
-                    //canvas.drawRect(go.getObjRect(), go.getPaint());
-                 //   canvas.drawBitmap(((Player) go).getBitmap(), go.x, go.y, paint);
-              //  }
+                //  else if(go instanceof Player)
+                //  {
+                //canvas.drawRect(go.getObjRect(), go.getPaint());
+                //   canvas.drawBitmap(((Player) go).getBitmap(), go.x, go.y, paint);
+                //  }
                 else
                 {
                     canvas.drawRect(go.getObjRect(), go.getPaint());
                 }
                 //canvas.drawCircle(go.x, go.y, go.getR(), go.getPaint());
 
-               // canvas.drawRect(go.getObjRect(), go.getPaint());
+                // canvas.drawRect(go.getObjRect(), go.getPaint());
             }
 
             if (gameEnded)
@@ -231,6 +237,18 @@ public class GameWorld extends SurfaceView implements Runnable
                 paint.setTextSize(80);
                 paint.setTextAlign(Paint.Align.CENTER);
                 canvas.drawText("Game Over", screenX / 2, 100, paint);
+            }
+            else
+            {
+                paint.setColor(0xFFFFFFFF);
+
+                paint.setTextSize(100);
+                paint.setTextAlign(Paint.Align.LEFT);
+                canvas.drawText("SCORE: 213", 15, 50, paint);
+
+                paint.setTextSize(100);
+                paint.setTextAlign(Paint.Align.RIGHT);
+                canvas.drawText("LIVES: 3", screenX - 5, 50, paint);
             }
 
             // Unlock and draw the scene
