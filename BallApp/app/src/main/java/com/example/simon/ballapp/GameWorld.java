@@ -5,6 +5,8 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -207,7 +209,6 @@ public class GameWorld extends SurfaceView implements Runnable
                 }
                 else if(go instanceof Brick)
                 {
-                    //canvas.drawRect(go.getObjRect(), go.getPaint());
                     canvas.drawBitmap(((Brick) go).getBitmap(), ((Brick) go).getObjRect().left, ((Brick) go).getObjRect().top, paint);
                 }
               //  else if(go instanceof Player)
@@ -279,7 +280,7 @@ public class GameWorld extends SurfaceView implements Runnable
 
     public void Spawnbrick()
     {
-        int brickWidth = screenX / 20;
+        int brickWidth = screenX / 15;
         int brickHeight = screenY / 25;
         float horizontalSpace = screenX * 0.005f;
         for (int column = 0; column < 16; column++)
@@ -287,7 +288,7 @@ public class GameWorld extends SurfaceView implements Runnable
             float verticalSpace = screenX * 0.005f;
             for (int row = 0; row < 6; row++)
             {
-                brick = new Brick(context, column * brickWidth + horizontalSpace, row * brickHeight + verticalSpace, brickWidth * (column + 1) + horizontalSpace, brickHeight * (row + 1) + verticalSpace);
+                brick = new Brick(context, column * brickWidth + horizontalSpace, row * brickHeight + verticalSpace + 90, brickWidth * (column + 1) + horizontalSpace, brickHeight * (row + 1) + verticalSpace);
                 switch (row)
                 {
                     case 0:

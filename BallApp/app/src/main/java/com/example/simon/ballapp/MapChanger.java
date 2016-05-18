@@ -2,6 +2,7 @@ package com.example.simon.ballapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -35,21 +36,7 @@ public class MapChanger implements SensorEventListener
             {
                 if (event.sensor.getType() == Sensor.TYPE_LIGHT && event.values[0] <= 250)
                 {
-                   /* if (go.getPaint().getColor() == ((Brick) go).getDarkColor())
-                    {
-                        break;
-                    }
 
-                    go.getPaint().setColor(((Brick) go).darker(((Brick) go).getLightColor(), 25));
-                } else
-                {
-                    if (go.getPaint().getColor() == ((Brick) go).getLightColor())
-                    {
-                        break;
-                    }
-
-                    go.getPaint().setColor(((Brick) go).getLightColor());
-                }*/
                 }
             }
         }
