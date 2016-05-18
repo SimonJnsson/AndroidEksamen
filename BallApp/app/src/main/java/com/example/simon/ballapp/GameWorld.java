@@ -208,7 +208,7 @@ public class GameWorld extends SurfaceView implements Runnable
                 else if(go instanceof Brick)
                 {
                     //canvas.drawRect(go.getObjRect(), go.getPaint());
-                    canvas.drawBitmap(((Brick) go).getBitmap(), go.x, go.y, paint);
+                    canvas.drawBitmap(((Brick) go).getBitmap(), ((Brick) go).getObjRect().left, ((Brick) go).getObjRect().top, paint);
                 }
               //  else if(go instanceof Player)
               //  {
@@ -221,7 +221,7 @@ public class GameWorld extends SurfaceView implements Runnable
                 }
                 //canvas.drawCircle(go.x, go.y, go.getR(), go.getPaint());
 
-                canvas.drawRect(go.getObjRect(), go.getPaint());
+               // canvas.drawRect(go.getObjRect(), go.getPaint());
             }
 
             if (gameEnded)
@@ -282,7 +282,7 @@ public class GameWorld extends SurfaceView implements Runnable
         int brickWidth = screenX / 20;
         int brickHeight = screenY / 25;
         float horizontalSpace = screenX * 0.005f;
-        for (int column = 0; column < 17; column++)
+        for (int column = 0; column < 16; column++)
         {
             float verticalSpace = screenX * 0.005f;
             for (int row = 0; row < 6; row++)

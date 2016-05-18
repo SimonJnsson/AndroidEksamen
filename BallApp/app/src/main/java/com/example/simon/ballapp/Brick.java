@@ -26,7 +26,6 @@ public class Brick extends GameObject
     {
         super(context, screenX, screenY, screenHeight, screenWidth);
 
-        paint.setColor(0xFF00FF00);
     }
 
     public Bitmap getBitmap()
@@ -37,6 +36,9 @@ public class Brick extends GameObject
     public void setBitmap(int id)
     {
         this.bitmap = BitmapFactory.decodeResource(context.getResources(), id);
+        bitmap = Bitmap.createScaledBitmap(bitmap, (int)Math.round(this.getObjRect().width()),(int)Math.round(this.getObjRect().height()),true);
+    }
+
     public void destroy()
     {
         GameWorld.getGameObjects().remove(this); // Remove the other object

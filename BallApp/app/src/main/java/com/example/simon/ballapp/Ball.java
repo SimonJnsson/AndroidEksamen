@@ -105,7 +105,6 @@ public class Ball extends GameObject
         speedX = -8;
         speedY = -8;
         GameWorld.getPlayer().lives--;
-        GameWorld.getPlayer().resetPlayer();
     }
 
     public void Move()

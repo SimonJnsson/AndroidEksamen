@@ -18,8 +18,7 @@ public class Player extends GameObject implements SensorEventListener
 {
     private int color;
     DisplayMetrics metrics;
-    int scrWidth, scrHeight, lives;
-    private float speed;
+    int lives;
     private RectF startRect;
     int scrWidth, scrHeight, powerupTimer;
     private float speed;
@@ -94,6 +93,7 @@ public class Player extends GameObject implements SensorEventListener
     public void setBitmap(Bitmap bitmap)
     {
         this.bitmap = bitmap;
+    }
     @Override
     void onCollision(GameObject other)
     {
