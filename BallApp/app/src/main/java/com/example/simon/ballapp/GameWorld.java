@@ -24,8 +24,18 @@ public class GameWorld extends SurfaceView implements Runnable
     static private boolean gameEnded;
 
     static Thread gameThread = null;
-    private int screenX;
-    private int screenY;
+
+    static int getScreenX() {
+        return screenX;
+    }
+
+    static int screenX;
+
+    static int getScreenY() {
+        return screenY;
+    }
+
+    static int screenY;
     private Context context;
 
     // Sound
