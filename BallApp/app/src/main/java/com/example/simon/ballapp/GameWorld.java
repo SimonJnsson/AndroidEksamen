@@ -26,7 +26,7 @@ public class GameWorld extends SurfaceView implements Runnable
     private int screenX;
     private int screenY;
     private Context context;
-
+    private MapChanger mapChanger;
     // Sound
     private SoundPool soundPool;
     int start = -1;
@@ -61,6 +61,7 @@ public class GameWorld extends SurfaceView implements Runnable
         // Initialize our drawing objects
         ourHolder = getHolder();
         paint = new Paint();
+        mapChanger = new MapChanger(context);
 
         screenX = x;
         screenY = y;
@@ -182,6 +183,16 @@ public class GameWorld extends SurfaceView implements Runnable
                 {
                     canvas.drawCircle(go.getObjRect().left, go.getObjRect().bottom, ((Ball) go).radius, go.getPaint());
                 }
+                else if(go instanceof Brick)
+                {
+                    //canvas.drawRect(go.getObjRect(), go.getPaint());
+                    canvas.drawBitmap(((Brick) go).getBitmap(), go.x, go.y, paint);
+                }
+              //  else if(go instanceof Player)
+              //  {
+                    //canvas.drawRect(go.getObjRect(), go.getPaint());
+                 //   canvas.drawBitmap(((Player) go).getBitmap(), go.x, go.y, paint);
+              //  }
                 else
                 {
                     canvas.drawRect(go.getObjRect(), go.getPaint());
@@ -241,10 +252,10 @@ public class GameWorld extends SurfaceView implements Runnable
 
     public void Spawnbrick()
     {
-        int brickWidth = screenX / 10;
-        int brickHeight = screenY / 15;
+        int brickWidth = screenX / 20;
+        int brickHeight = screenY / 25;
         float horizontalSpace = screenX * 0.005f;
-        for (int column = 0; column < 9; column++)
+        for (int column = 0; column < 17; column++)
         {
             float verticalSpace = screenX * 0.005f;
             for (int row = 0; row < 6; row++)
@@ -253,23 +264,22 @@ public class GameWorld extends SurfaceView implements Runnable
                 switch (row)
                 {
                     case 0:
-                        brick.getPaint().setColor(0xFF24BFF2);
-                        //brick.paint.setColor(0xFF00FF00);
+                        brick.setBitmap(R.drawable.b1);
                         break;
                     case 1:
-                        brick.getPaint().setColor(0xFF24F27D);
+                        brick.setBitmap(R.drawable.b2);
                         break;
                     case 2:
-                        brick.getPaint().setColor(0xFFF2E424);
+                        brick.setBitmap(R.drawable.b3);
                         break;
                     case 3:
-                        brick.getPaint().setColor(0xFFE041D3);
+                        brick.setBitmap(R.drawable.b4);
                         break;
                     case 4:
-                        brick.getPaint().setColor(0xFFE04441);
+                        brick.setBitmap(R.drawable.b5);
                         break;
                     case 5:
-                        brick.getPaint().setColor(0xFF41E041);
+                        brick.setBitmap(R.drawable.b6);
                         break;
                 }
                 gameObjects.add(brick);

@@ -2,6 +2,8 @@ package com.example.simon.ballapp;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.hardware.Sensor;
@@ -18,11 +20,12 @@ public class Player extends GameObject implements SensorEventListener
     int scrWidth, scrHeight;
     private float speed;
 
+    private Bitmap bitmap;
+
     public Player(Context context, int left, int top, int right, int bottom)
     {
         super(context, left, top, right, bottom);
-
-        paint.setColor(0xFF00FF00);
+        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.paddle);
 
         SensorManager manager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         Sensor accel = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -31,7 +34,7 @@ public class Player extends GameObject implements SensorEventListener
         metrics = Resources.getSystem().getDisplayMetrics();
         scrHeight = metrics.heightPixels;
         scrWidth = metrics.widthPixels;
-
+        paint.setColor(0xFF00FF00);
         speed = 3;
     }
 
@@ -64,5 +67,15 @@ public class Player extends GameObject implements SensorEventListener
     public void onAccuracyChanged(Sensor sensor, int accuracy)
     {
 
+    }
+
+    public Bitmap getBitmap()
+    {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap)
+    {
+        this.bitmap = bitmap;
     }
 }
