@@ -15,8 +15,9 @@ public class Player extends GameObject implements SensorEventListener
 {
     private int color;
     DisplayMetrics metrics;
-    int scrWidth, scrHeight;
+    int scrWidth, scrHeight,powerupTimer;
     private float speed;
+    private boolean speedPowerup = false,ballPowerup = false;
 
     public Player(Context context, int left, int top, int right, int bottom)
     {
@@ -48,6 +49,16 @@ public class Player extends GameObject implements SensorEventListener
         {
             objRect.right = scrWidth;
         }
+
+        if (speedPowerup)
+        {
+            powerupTimer++;
+            if (powerupTimer <= 300)
+            {
+                speedPowerup = false;
+                speed = 3;
+            }
+        }
     }
 
     @Override
@@ -69,6 +80,24 @@ public class Player extends GameObject implements SensorEventListener
     @Override
     void onCollision(GameObject other)
     {
+        if(other instanceof Powerup)
+        {
+            if (((Powerup) other).r==1)
+            {
+                speed = 6;
+                speedPowerup = true;
+            }
+            else if (((Powerup) other).r==2)
+            {
+                GameWorld.gameObjects.add(new Ball(context, GameWorld.getScreenX() / 2 - 5, GameWorld.getScreenY() - 110, GameWorld.getScreenX() / 2 + 5, GameWorld.getScreenY() - 100));
+
+            }
+            else if (((Powerup) other).r==3)
+            {
+                
+            }
+
+        }
 
     }
 }
