@@ -35,8 +35,13 @@ public class GameWorld extends SurfaceView implements Runnable
     int destroyed = -1;
     int win = -1;
 
+    static Player getPlayer()
+    {
+        return player;
+    }
+
     //Game objects
-    private Player player;
+    static Player player;
     private Ball ball;
     static CopyOnWriteArrayList<GameObject> gameObjects = new CopyOnWriteArrayList<GameObject>();
 
@@ -108,6 +113,7 @@ public class GameWorld extends SurfaceView implements Runnable
 
     private void startGame()
     {
+        gameObjects.clear();
         gameEnded = false;
         playing = true;
 
@@ -160,6 +166,11 @@ public class GameWorld extends SurfaceView implements Runnable
 
     private void update()
     {
+        if (player.lives <= 0)
+        {
+            gameEnded = true;
+        }
+
         // Update the GameObjects
         for (GameObject go : gameObjects)
         {
@@ -179,15 +190,8 @@ public class GameWorld extends SurfaceView implements Runnable
 
             for (GameObject go : gameObjects)
             {
-//                if (go instanceof Ball)
-//                {
-//                    canvas.drawCircle(go.getObjRect().left, go.getObjRect().bottom, ((Ball) go).radius, go.getPaint());
-//                }
-//                else
-//                {
+
                 canvas.drawRect(go.getObjRect(), go.getPaint());
-//                }
-                //canvas.drawCircle(go.x, go.y, go.getR(), go.getPaint());
             }
 
             if (gameEnded)
@@ -224,7 +228,6 @@ public class GameWorld extends SurfaceView implements Runnable
 
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK)
         {
-
             // Has the player lifted their finger up?
             case MotionEvent.ACTION_UP:
                 break;
@@ -234,6 +237,10 @@ public class GameWorld extends SurfaceView implements Runnable
                 if (gameEnded)
                 {
                     startGame();
+                }
+                if (!ball.isCanMove())
+                {
+                    ball.setCanMove(true);
                 }
                 break;
         }

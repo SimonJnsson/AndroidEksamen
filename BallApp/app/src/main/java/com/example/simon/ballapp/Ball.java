@@ -2,6 +2,7 @@ package com.example.simon.ballapp;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.RectF;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -16,6 +17,19 @@ public class Ball extends GameObject
     int scrWidth, scrHeight;
     float speedY, speedX;
     float radius;
+    private RectF startRect;
+
+    public boolean isCanMove()
+    {
+        return canMove;
+    }
+
+    public void setCanMove(boolean canMove)
+    {
+        this.canMove = canMove;
+    }
+
+    private boolean canMove;
 
     public Ball(Context context, float left, float top, float right, float bottom)
     {
@@ -26,9 +40,12 @@ public class Ball extends GameObject
         metrics = Resources.getSystem().getDisplayMetrics();
         scrHeight = metrics.heightPixels;
         scrWidth = metrics.widthPixels;
-        speedX = 8;
-        speedY = 8;
+        speedX = -8;
+        speedY = -8;
         radius = objRect.right - objRect.left;
+        canMove = false;
+
+        startRect = objRect;
     }
 
     @Override
@@ -41,11 +58,16 @@ public class Ball extends GameObject
             speedX *= -1;
         }
 
-        if (objRect.top <= 0 || objRect.bottom >= scrHeight)
+        if (objRect.top <= 0)
         {
             speedY *= -1;
         }
 
+
+        if (objRect.bottom >= scrHeight)
+        {
+            resetBall();
+        }
 
         // if (y > ?player.y?)
         //{player loses 1 life, respawn ball}
@@ -70,15 +92,24 @@ public class Ball extends GameObject
         * speedX * -1;
         * */
 
-        Move();
+        if (canMove)
+        {
+            Move();
+        }
+    }
 
+    private void resetBall()
+    {
+        canMove = false;
+        objRect = new RectF(955, 970, 965, 980);
+        speedX = -8;
+        speedY = -8;
+        GameWorld.getPlayer().lives--;
+        GameWorld.getPlayer().resetPlayer();
     }
 
     public void Move()
     {
-        //x += speedX;
-        //  y += speedY;
-
         objRect.left += speedX;
         objRect.right += speedX;
 

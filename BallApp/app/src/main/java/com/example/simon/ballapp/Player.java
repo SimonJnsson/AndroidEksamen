@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.RectF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,8 +16,9 @@ public class Player extends GameObject implements SensorEventListener
 {
     private int color;
     DisplayMetrics metrics;
-    int scrWidth, scrHeight;
+    int scrWidth, scrHeight, lives;
     private float speed;
+    private RectF startRect;
 
     public Player(Context context, int left, int top, int right, int bottom)
     {
@@ -32,6 +34,7 @@ public class Player extends GameObject implements SensorEventListener
         scrHeight = metrics.heightPixels;
         scrWidth = metrics.widthPixels;
 
+        lives = 3;
         speed = 3;
     }
 
