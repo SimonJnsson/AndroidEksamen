@@ -299,14 +299,16 @@ public class GameWorld extends SurfaceView implements Runnable
     public void Spawnbrick()
     {
         int brickWidth = screenX / 15;
-        int brickHeight = screenY / 25;
-        float horizontalSpace = screenX * 0.005f;
-        for (int column = 0; column < 16; column++)
+        int brickHeight = screenY / 20;
+       // float horizontalSpace = screenX * 0.005f;
+        float distanceToTop = brickHeight * 2;
+        for (int column = 0; column < 15; column++)
         {
-            float verticalSpace = screenX * 0.005f;
+           // float verticalSpace = screenX * 0.005f;
             for (int row = 0; row < 6; row++)
             {
-                brick = new Brick(context, column * brickWidth + horizontalSpace, row * brickHeight + verticalSpace + 90, brickWidth * (column + 1) + horizontalSpace, brickHeight * (row + 1) + verticalSpace);
+                // brick = new Brick(context, column * brickWidth + horizontalSpace, row * brickHeight + verticalSpace, brickWidth * (column + 1) + horizontalSpace, brickHeight * (row + 1) + verticalSpace);
+                brick = new Brick(context, column * brickWidth, row * brickHeight + distanceToTop, brickWidth * (column + 1), brickHeight * (row + 1) + distanceToTop);
                 switch (row)
                 {
                     case 0:
@@ -329,9 +331,9 @@ public class GameWorld extends SurfaceView implements Runnable
                         break;
                 }
                 gameObjects.add(brick);
-                verticalSpace += screenX * 0.012f;
+               // verticalSpace += screenX * 0.012f;
             }
-            horizontalSpace += screenX * 0.012f;
+           // horizontalSpace += screenX * 0.012f;
         }
     }
 }
