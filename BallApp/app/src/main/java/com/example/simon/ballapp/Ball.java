@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.graphics.RectF;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 /**
  * Created by Patrick Q Jensen on 10-05-2016.
