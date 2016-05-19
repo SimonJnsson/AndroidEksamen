@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.graphics.RectF;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -19,6 +20,8 @@ public class Ball extends GameObject
     int scrWidth, scrHeight;
     float speedY, speedX;
     float radius;
+    final MediaPlayer mp = MediaPlayer.create(context,R.raw.batSound);
+    final MediaPlayer mp2 = MediaPlayer.create(context,R.raw.brickSound);
     private RectF startRect;
 
     public boolean isCanMove()
@@ -54,6 +57,11 @@ public class Ball extends GameObject
     public void update()
     {
         super.update();
+
+        if (!canMove)
+        {
+            positionBall();
+        }
 
         if (objRect.right >= scrWidth || objRect.left <= 0)
         {
@@ -103,10 +111,20 @@ public class Ball extends GameObject
     private void resetBall()
     {
         canMove = false;
-        objRect = new RectF(955, 970, 965, 980);
+        positionBall();
         speedX = -8;
         speedY = -8;
         GameWorld.getPlayer().lives--;
+    }
+
+    private void positionBall()
+    {
+        int distToPlayer = 50;
+        RectF playerRect = GameWorld.getPlayer().getObjRect();
+        objRect.left = playerRect.left + ((playerRect.right - playerRect.left) / 2);
+        objRect.top = playerRect.top - radius * 2 - distToPlayer;
+        objRect.right = playerRect.left + radius * 2 + ((playerRect.right - playerRect.left) / 2);
+        objRect.bottom = playerRect.top + radius * 2 - distToPlayer;
     }
 
     public void Move()
@@ -134,6 +152,8 @@ public class Ball extends GameObject
     {
         if (!(other instanceof Player) && other instanceof Brick)
         {
+            GameWorld.getPlayer().setScore(GameWorld.getPlayer().getScore() + 1);
+
             if (objRect.bottom >= other.objRect.bottom) // if the ball hits from below
             {
                 RevertY();
@@ -148,9 +168,11 @@ public class Ball extends GameObject
                 RevertX();
             }
 
+            mp2.start();
             ((Brick) other).destroy();
         } else
         {
+            mp.start();
             RevertY();
         }
     }
