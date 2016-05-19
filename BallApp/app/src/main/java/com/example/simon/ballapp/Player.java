@@ -19,6 +19,18 @@ public class Player extends GameObject implements SensorEventListener
     private int color;
     DisplayMetrics metrics;
     int lives;
+
+    public int getScore()
+    {
+        return score;
+    }
+
+    public void setScore(int score)
+    {
+        this.score = score;
+    }
+
+    int score;
     private RectF startRect;
     int scrWidth, scrHeight, powerupTimer;
     private float speed;
@@ -41,6 +53,7 @@ public class Player extends GameObject implements SensorEventListener
         paint.setColor(0xFF00FF00);
 
         lives = 3;
+        score = 0;
         speed = 3;
     }
 
@@ -94,6 +107,7 @@ public class Player extends GameObject implements SensorEventListener
     {
         this.bitmap = bitmap;
     }
+
     @Override
     void onCollision(GameObject other)
     {

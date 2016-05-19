@@ -36,7 +36,7 @@ public class Brick extends GameObject
     public void setBitmap(int id)
     {
         this.bitmap = BitmapFactory.decodeResource(context.getResources(), id);
-        bitmap = Bitmap.createScaledBitmap(bitmap, (int)Math.round(this.getObjRect().width()),(int)Math.round(this.getObjRect().height()),true);
+        bitmap = Bitmap.createScaledBitmap(bitmap, (int) Math.round(this.getObjRect().width()), (int) Math.round(this.getObjRect().height()), true);
     }
 
     public void destroy()
