@@ -19,17 +19,27 @@ public class Player extends GameObject implements SensorEventListener
     private int color;
     DisplayMetrics metrics;
     int lives;
+
+    public int getScore()
+    {
+        return score;
+    }
+
+    public void setScore(int score)
+    {
+        this.score = score;
+    }
+
+    int score;
     private RectF startRect;
     int scrWidth, scrHeight, powerupTimer;
     private float speed;
     private boolean speedPowerup = false, ballPowerup = false;
 
-    private Bitmap bitmap;
 
-    public Player(Context context, int left, int top, int right, int bottom)
+    public Player(Context context, int left, int top, int right, int bottom, int id)
     {
-        super(context, left, top, right, bottom);
-        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.paddle);
+        super(context, left, top, right, bottom, id);
 
         SensorManager manager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         Sensor accel = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -41,6 +51,7 @@ public class Player extends GameObject implements SensorEventListener
         paint.setColor(0xFF00FF00);
 
         lives = 3;
+        score = 0;
         speed = 3;
     }
 
@@ -94,6 +105,7 @@ public class Player extends GameObject implements SensorEventListener
     {
         this.bitmap = bitmap;
     }
+
     @Override
     void onCollision(GameObject other)
     {
@@ -106,7 +118,7 @@ public class Player extends GameObject implements SensorEventListener
             }
             else if (((Powerup) other).r == 2)
             {
-                GameWorld.gameObjects.add(new Ball(context, GameWorld.getScreenX() / 2 - 5, GameWorld.getScreenY() - 110, GameWorld.getScreenX() / 2 + 5, GameWorld.getScreenY() - 100));
+                GameWorld.gameObjects.add(new Ball(context, GameWorld.getScreenX() / 2 - 5, GameWorld.getScreenY() - 110, GameWorld.getScreenX() / 2 + 5, GameWorld.getScreenY() - 100, R.drawable.ball));
 
             }
             else if (((Powerup) other).r == 3)

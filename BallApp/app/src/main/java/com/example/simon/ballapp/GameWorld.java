@@ -1,6 +1,7 @@
 package com.example.simon.ballapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
@@ -11,7 +12,9 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Handler;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -71,6 +74,8 @@ public class GameWorld extends SurfaceView implements Runnable
         return gameObjects;
     }
 
+    GestureDetector gestureDetector;
+
     public GameWorld(Context context, int x, int y)
     {
         super(context);
@@ -80,6 +85,7 @@ public class GameWorld extends SurfaceView implements Runnable
         loadSounds();
 
         Typeface typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/game_over.ttf");
+        gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener());
 
         // Initialize our drawing objects
         ourHolder = getHolder();
@@ -112,8 +118,7 @@ public class GameWorld extends SurfaceView implements Runnable
             bump = soundPool.load(descriptor, 0);
             descriptor = assetManager.openFd("destroyed.ogg");
             destroyed = soundPool.load(descriptor, 0);
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             //Print an error message to the console
             Log.e("error", "failed to load sound files");
@@ -137,10 +142,11 @@ public class GameWorld extends SurfaceView implements Runnable
         playing = true;
 
         //Initialize game objects
-        player = new Player(context, screenX / 2 - 50, screenY - 50, screenX / 2 + 50, screenY - 25);
-        ball = new Ball(context, screenX / 2 - 5, screenY - 110, screenX / 2 + 5, screenY - 100);
+        player = new Player(context, screenX / 2 - 180, screenY - 50, screenX / 2 + 50, screenY - 15, R.drawable.paddle);
+        ball = new Ball(context, screenX / 2 - 30, screenY -100, screenX / 2 + 30, screenY -40, R.drawable.ball);
 
         gameObjects.add(ball);
+        ball.positionBall();
         gameObjects.add(player);
         Spawnbrick();
     }
@@ -167,8 +173,7 @@ public class GameWorld extends SurfaceView implements Runnable
         try
         {
             gameThread.join();
-        }
-        catch (InterruptedException e)
+        } catch (InterruptedException e)
         {
 
         }
@@ -211,33 +216,29 @@ public class GameWorld extends SurfaceView implements Runnable
             {
                 if (go instanceof Ball)
                 {
-                    canvas.drawCircle(go.getObjRect().left, go.getObjRect().bottom, ((Ball) go).radius, go.getPaint());
-                }
-                else if (go instanceof Brick)
+                    canvas.drawBitmap(go.getBitmap(), go.getObjRect().left, go.getObjRect().top, paint);
+                } else if (go instanceof Brick)
                 {
-                    canvas.drawBitmap(((Brick) go).getBitmap(), ((Brick) go).getObjRect().left, ((Brick) go).getObjRect().top, paint);
-                }
-                //  else if(go instanceof Player)
-                //  {
-                //canvas.drawRect(go.getObjRect(), go.getPaint());
-                //   canvas.drawBitmap(((Player) go).getBitmap(), go.x, go.y, paint);
-                //  }
-                else
+                    canvas.drawBitmap(go.getBitmap(), go.getObjRect().left, go.getObjRect().top, paint);
+                } else if (go instanceof Player)
+                {
+                    canvas.drawBitmap(go.getBitmap(), go.getObjRect().left, go.getObjRect().top, paint);
+                } else
                 {
                     canvas.drawRect(go.getObjRect(), go.getPaint());
                 }
-                //canvas.drawCircle(go.x, go.y, go.getR(), go.getPaint());
-
-                // canvas.drawRect(go.getObjRect(), go.getPaint());
             }
 
             if (gameEnded)
             {
                 //this happens when the game is ended
                 // Show pause screen
-                paint.setTextSize(80);
+                paint.setTextSize(160);
                 paint.setTextAlign(Paint.Align.CENTER);
-                canvas.drawText("Game Over", screenX / 2, 100, paint);
+                canvas.drawText("Game Over", screenX / 2, screenY / 2, paint);
+                paint.setTextSize(100);
+                canvas.drawText("Tap to view score", screenX / 2, screenY / 2 + 50, paint);
+                canvas.drawText("Long press to retry", screenX / 2, screenY / 2 + 100, paint);
             }
             else
             {
@@ -245,11 +246,11 @@ public class GameWorld extends SurfaceView implements Runnable
 
                 paint.setTextSize(100);
                 paint.setTextAlign(Paint.Align.LEFT);
-                canvas.drawText("SCORE: 213", 15, 50, paint);
+                canvas.drawText("SCORE: " + player.getScore(), 15, 50, paint);
 
                 paint.setTextSize(100);
                 paint.setTextAlign(Paint.Align.RIGHT);
-                canvas.drawText("LIVES: 3", screenX - 5, 50, paint);
+                canvas.drawText("LIVES: " + player.lives, screenX - 5, 50, paint);
             }
 
             // Unlock and draw the scene
@@ -262,8 +263,7 @@ public class GameWorld extends SurfaceView implements Runnable
         try
         {
             gameThread.sleep(17);
-        }
-        catch (InterruptedException e)
+        } catch (InterruptedException e)
         {
         }
     }
@@ -272,9 +272,6 @@ public class GameWorld extends SurfaceView implements Runnable
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent)
     {
-        // There are many different events in MotionEvent
-        // We care about just 2 - for now.
-
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK)
         {
             // Has the player lifted their finger up?
@@ -282,10 +279,12 @@ public class GameWorld extends SurfaceView implements Runnable
                 break;
             // Has the player touched the screen?
             case MotionEvent.ACTION_DOWN:
-                // If we are currently on the pause screen, start a new game
+//                 If we are currently on the pause screen, start a new game
+
                 if (gameEnded)
                 {
-                    startGame();
+                    Intent i = new Intent(context, ScoreActivity.class);
+                    context.startActivity(i);
                 }
                 if (!ball.isCanMove())
                 {
@@ -300,40 +299,39 @@ public class GameWorld extends SurfaceView implements Runnable
     {
         int brickWidth = screenX / 15;
         int brickHeight = screenY / 20;
-       // float horizontalSpace = screenX * 0.005f;
         float distanceToTop = brickHeight * 2;
+        int id = 0;
         for (int column = 0; column < 15; column++)
         {
-           // float verticalSpace = screenX * 0.005f;
             for (int row = 0; row < 6; row++)
             {
-                // brick = new Brick(context, column * brickWidth + horizontalSpace, row * brickHeight + verticalSpace, brickWidth * (column + 1) + horizontalSpace, brickHeight * (row + 1) + verticalSpace);
-                brick = new Brick(context, column * brickWidth, row * brickHeight + distanceToTop, brickWidth * (column + 1), brickHeight * (row + 1) + distanceToTop);
                 switch (row)
                 {
                     case 0:
-                        brick.setBitmap(R.drawable.b1);
+                        id = R.drawable.b1;
                         break;
                     case 1:
-                        brick.setBitmap(R.drawable.b2);
+                        id = R.drawable.b2;
                         break;
                     case 2:
-                        brick.setBitmap(R.drawable.b3);
+                        id = R.drawable.b3;
                         break;
                     case 3:
-                        brick.setBitmap(R.drawable.b4);
+                        id = R.drawable.b4;
                         break;
                     case 4:
-                        brick.setBitmap(R.drawable.b5);
+                        id = R.drawable.b5;
                         break;
                     case 5:
-                        brick.setBitmap(R.drawable.b6);
+                        id = R.drawable.b6;
+                        break;
+                    default:
+                        id = R.drawable.b1;
                         break;
                 }
+                brick = new Brick(context, column * brickWidth, row * brickHeight + distanceToTop, brickWidth * (column + 1), brickHeight * (row + 1) + distanceToTop, id);
                 gameObjects.add(brick);
-               // verticalSpace += screenX * 0.012f;
             }
-           // horizontalSpace += screenX * 0.012f;
         }
     }
 }

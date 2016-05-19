@@ -2,6 +2,8 @@ package com.example.simon.ballapp;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.graphics.RectF;
 import android.os.Vibrator;
@@ -22,6 +24,8 @@ public class Ball extends GameObject
     final MediaPlayer brickSound = MediaPlayer.create(context,R.raw.bricksound);
     final MediaPlayer deathSound = MediaPlayer.create(context,R.raw.deathsound);
     Vibrator v = (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
+    final MediaPlayer mp = MediaPlayer.create(context,R.raw.batsound);
+    final MediaPlayer mp2 = MediaPlayer.create(context,R.raw.bricksound);
     private RectF startRect;
 
     public boolean isCanMove()
@@ -36,9 +40,9 @@ public class Ball extends GameObject
 
     private boolean canMove;
 
-    public Ball(Context context, float left, float top, float right, float bottom)
+    public Ball(Context context, float left, float top, float right, float bottom, int id)
     {
-        super(context, left, top, right, bottom);
+        super(context, left, top, right, bottom, id);
 
         paint.setColor(0xFF00FF00);
 
@@ -58,6 +62,11 @@ public class Ball extends GameObject
     {
         super.update();
 
+        if (!canMove)
+        {
+            positionBall();
+        }
+
         if (objRect.right >= scrWidth || objRect.left <= 0)
         {
             speedX *= -1;
@@ -68,36 +77,12 @@ public class Ball extends GameObject
             speedY *= -1;
         }
 
-
         if (objRect.bottom >= scrHeight)
         {
             resetBall();
             deathSound.start();
             v.vibrate(100);
         }
-
-        // if (y > ?player.y?)
-        //{player loses 1 life, respawn ball}
-
-        /*
-        * if (ball collides with top of brick)
-        * speedY * -1;
-        * */
-
-        /*
-        * if (ball collides with bottom of brick)
-        * speedY * -1;
-        * */
-
-        /*
-        * if (ball collides with right side of brick)
-        * speedX * -1;
-        * */
-
-        /*
-        * if (ball collides with left side of brick)
-        * speedX * -1;
-        * */
 
         if (canMove)
         {
@@ -108,10 +93,20 @@ public class Ball extends GameObject
     private void resetBall()
     {
         canMove = false;
-        objRect = new RectF(955, 970, 965, 980);
+        positionBall();
         speedX = -8;
         speedY = -8;
         GameWorld.getPlayer().lives--;
+    }
+
+    public void positionBall()
+    {
+        int distToPlayer = 50;
+        RectF playerRect = GameWorld.getPlayer().getObjRect();
+        objRect.left = playerRect.left + ((playerRect.right - playerRect.left) / 2);
+        objRect.top = playerRect.top - radius;
+        objRect.right = playerRect.left + radius + ((playerRect.right - playerRect.left) / 2);
+        objRect.bottom = playerRect.top;
     }
 
     public void Move()
@@ -139,19 +134,18 @@ public class Ball extends GameObject
     {
         if (!(other instanceof Player) && other instanceof Brick)
         {
+            GameWorld.getPlayer().setScore(GameWorld.getPlayer().getScore() + 1);
+
             if (objRect.bottom >= other.objRect.bottom) // if the ball hits from below
             {
                 RevertY();
-            }
-            else if (objRect.right >= other.objRect.right) // If the ball hits the right side
+            } else if (objRect.right >= other.objRect.right) // If the ball hits the right side
             {
                 RevertX();
-            }
-            else if (objRect.top <= other.objRect.top) // if the ball hits from above
+            } else if (objRect.top <= other.objRect.top) // if the ball hits from above
             {
                 RevertY();
-            }
-            else if (objRect.left <= other.objRect.left) // If the ball hits the left side
+            } else if (objRect.left <= other.objRect.left) // If the ball hits the left side
             {
                 RevertX();
             }
@@ -161,8 +155,7 @@ public class Ball extends GameObject
             }
             brickSound.start();
             ((Brick) other).destroy();
-        }
-        else
+        } else
         {
             if (batSound.isPlaying())
             {

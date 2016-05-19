@@ -27,7 +27,9 @@
         </activity>
         <activity android:name=".MenuActivity"/>
         <activity android:name=".OptionsMenuActivity"/>
-        <activity android:name=".ScoreActivity">
+        <activity
+            android:name=".ScoreActivity"
+            android:label="Highscores">
         </activity>
     </application>
 
