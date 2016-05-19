@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.graphics.RectF;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 /**
  * Created by Patrick Q Jensen on 10-05-2016.
@@ -18,8 +17,8 @@ public class Ball extends GameObject
     int scrWidth, scrHeight;
     float speedY, speedX;
     float radius;
-    final MediaPlayer mp = MediaPlayer.create(context,R.raw.batSound);
-    final MediaPlayer mp2 = MediaPlayer.create(context,R.raw.brickSound);
+    final MediaPlayer mp = MediaPlayer.create(context,R.raw.batsound);
+    final MediaPlayer mp2 = MediaPlayer.create(context,R.raw.bricksound);
     private RectF startRect;
 
     public boolean isCanMove()

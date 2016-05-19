@@ -45,10 +45,10 @@ public class Brick extends GameObject
     {
         Random rnd = new Random();
         int r = rnd.nextInt(10);
-        if (r==5)
+        if (r == 5)
         {
             int r2 = rnd.nextInt(GameWorld.getScreenX());
-            GameWorld.gameObjects.add(new Powerup(context, r2-10,20,100,r2+10));
+            GameWorld.gameObjects.add(new Powerup(context, objRect.left, objRect.top, objRect.left + 20, objRect.top + 20));
         }
         GameWorld.getGameObjects().remove(this); // Remove the other object
     }
