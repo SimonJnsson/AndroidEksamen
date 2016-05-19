@@ -17,9 +17,10 @@ public class Powerup extends GameObject
     float radius;
     Random rnd = new Random();
 
+    public Powerup(Context context, float left, float top, float right, float bottom, int r, int id)
     public Powerup(Context context, float left, float top, float right, float bottom)
     {
-        super(context, left, top, right, bottom);
+        super(context, left, top, right, bottom, id);
 
 
         metrics = Resources.getSystem().getDisplayMetrics();

@@ -22,13 +22,9 @@ import java.util.Random;
  */
 public class Brick extends GameObject
 {
-    private Bitmap bitmap;
-
-    public Brick(Context context, float screenX, float screenY, float screenHeight, float screenWidth)
+    public Brick(Context context, float screenX, float screenY, float screenHeight, float screenWidth, int id)
     {
-        super(context, screenX, screenY, screenHeight, screenWidth);
-
-    }
+        super(context, screenX, screenY, screenHeight, screenWidth, id);
 
     public Bitmap getBitmap()
     {

@@ -143,8 +143,8 @@ public class GameWorld extends SurfaceView implements Runnable
         playing = true;
 
         //Initialize game objects
-        player = new Player(context, screenX / 2 - 50, screenY - 50, screenX / 2 + 50, screenY - 25);
-        ball = new Ball(context, screenX / 2 - 5, screenY - 110, screenX / 2 + 5, screenY - 100);
+        player = new Player(context, screenX / 2 - 180, screenY - 50, screenX / 2 + 50, screenY - 15, R.drawable.paddle);
+        ball = new Ball(context, screenX / 2 - 30, screenY - 30, screenX / 2 + 30, screenY + 30, R.drawable.ball);
 
         gameObjects.add(ball);
         gameObjects.add(player);
@@ -217,24 +217,20 @@ public class GameWorld extends SurfaceView implements Runnable
             {
                 if (go instanceof Ball)
                 {
-                    canvas.drawCircle(go.getObjRect().left, go.getObjRect().bottom, ((Ball) go).radius, go.getPaint());
+                    canvas.drawBitmap(go.getBitmap(),go.getObjRect().left, go.getObjRect().top, paint );
                 }
                 else if (go instanceof Brick)
                 {
-                    canvas.drawBitmap(((Brick) go).getBitmap(), ((Brick) go).getObjRect().left, ((Brick) go).getObjRect().top, paint);
+                    canvas.drawBitmap(go.getBitmap(), go.getObjRect().left, go.getObjRect().top, paint);
                 }
-                //  else if(go instanceof Player)
-                //  {
-                //canvas.drawRect(go.getObjRect(), go.getPaint());
-                //   canvas.drawBitmap(((Player) go).getBitmap(), go.x, go.y, paint);
-                //  }
+                else if(go instanceof Player)
+                {
+                    canvas.drawBitmap(go.getBitmap(), go.getObjRect().left, go.getObjRect().top, paint);
+                }
                 else
                 {
                     canvas.drawRect(go.getObjRect(), go.getPaint());
                 }
-                //canvas.drawCircle(go.x, go.y, go.getR(), go.getPaint());
-
-                // canvas.drawRect(go.getObjRect(), go.getPaint());
             }
 
             if (gameEnded)
@@ -310,35 +306,39 @@ public class GameWorld extends SurfaceView implements Runnable
         int brickHeight = screenY / 20;
         // float horizontalSpace = screenX * 0.005f;
         float distanceToTop = brickHeight * 2;
+        int id = 0;
         for (int column = 0; column < 15; column++)
         {
             // float verticalSpace = screenX * 0.005f;
             for (int row = 0; row < 6; row++)
             {
-                // brick = new Brick(context, column * brickWidth + horizontalSpace, row * brickHeight + verticalSpace, brickWidth * (column + 1) + horizontalSpace, brickHeight * (row + 1) + verticalSpace);
-                brick = new Brick(context, column * brickWidth, row * brickHeight + distanceToTop, brickWidth * (column + 1), brickHeight * (row + 1) + distanceToTop);
                 switch (row)
                 {
                     case 0:
-                        brick.setBitmap(R.drawable.b1);
+                        id = R.drawable.b1;
                         break;
                     case 1:
-                        brick.setBitmap(R.drawable.b2);
+                        id = R.drawable.b2;
                         break;
                     case 2:
-                        brick.setBitmap(R.drawable.b3);
+                        id = R.drawable.b3;
                         break;
                     case 3:
-                        brick.setBitmap(R.drawable.b4);
+                        id = R.drawable.b4;
                         break;
                     case 4:
-                        brick.setBitmap(R.drawable.b5);
+                        id = R.drawable.b5;
                         break;
                     case 5:
-                        brick.setBitmap(R.drawable.b6);
+                        id = R.drawable.b6;
+                        break;
+                    default:
+                        id = R.drawable.b1;
                         break;
                 }
+                brick = new Brick(context, column * brickWidth, row * brickHeight + distanceToTop, brickWidth * (column + 1), brickHeight * (row + 1) + distanceToTop, id);
                 gameObjects.add(brick);
+            }
                 // verticalSpace += screenX * 0.012f;
             }
             // horizontalSpace += screenX * 0.012f;

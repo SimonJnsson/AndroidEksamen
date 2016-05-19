@@ -2,6 +2,8 @@ package com.example.simon.ballapp;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.graphics.RectF;
 import android.util.DisplayMetrics;
@@ -33,9 +35,9 @@ public class Ball extends GameObject
 
     private boolean canMove;
 
-    public Ball(Context context, float left, float top, float right, float bottom)
+    public Ball(Context context, float left, float top, float right, float bottom, int id)
     {
-        super(context, left, top, right, bottom);
+        super(context, left, top, right, bottom, id);
 
         paint.setColor(0xFF00FF00);
 
@@ -154,24 +156,20 @@ public class Ball extends GameObject
             if (objRect.bottom >= other.objRect.bottom) // if the ball hits from below
             {
                 RevertY();
-            }
-            else if (objRect.right >= other.objRect.right) // If the ball hits the right side
+            } else if (objRect.right >= other.objRect.right) // If the ball hits the right side
             {
                 RevertX();
-            }
-            else if (objRect.top <= other.objRect.top) // if the ball hits from above
+            } else if (objRect.top <= other.objRect.top) // if the ball hits from above
             {
                 RevertY();
-            }
-            else if (objRect.left <= other.objRect.left) // If the ball hits the left side
+            } else if (objRect.left <= other.objRect.left) // If the ball hits the left side
             {
                 RevertX();
             }
 
             mp2.start();
             ((Brick) other).destroy();
-        }
-        else
+        } else
         {
             mp.start();
             RevertY();
