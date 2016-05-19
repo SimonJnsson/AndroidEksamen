@@ -2,8 +2,11 @@ package com.example.simon.ballapp;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.RectF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,15 +18,18 @@ public class Player extends GameObject implements SensorEventListener
 {
     private int color;
     DisplayMetrics metrics;
-    int scrWidth, scrHeight,powerupTimer;
+    int lives;
+    private RectF startRect;
+    int scrWidth, scrHeight, powerupTimer;
     private float speed;
-    private boolean speedPowerup = false,ballPowerup = false;
+    private boolean speedPowerup = false, ballPowerup = false;
+
+    private Bitmap bitmap;
 
     public Player(Context context, int left, int top, int right, int bottom)
     {
         super(context, left, top, right, bottom);
-
-        paint.setColor(0xFF00FF00);
+        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.paddle);
 
         SensorManager manager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         Sensor accel = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -32,7 +38,9 @@ public class Player extends GameObject implements SensorEventListener
         metrics = Resources.getSystem().getDisplayMetrics();
         scrHeight = metrics.heightPixels;
         scrWidth = metrics.widthPixels;
+        paint.setColor(0xFF00FF00);
 
+        lives = 3;
         speed = 3;
     }
 
@@ -77,24 +85,33 @@ public class Player extends GameObject implements SensorEventListener
 
     }
 
+    public Bitmap getBitmap()
+    {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap)
+    {
+        this.bitmap = bitmap;
+    }
     @Override
     void onCollision(GameObject other)
     {
-        if(other instanceof Powerup)
+        if (other instanceof Powerup)
         {
-            if (((Powerup) other).r==1)
+            if (((Powerup) other).r == 1)
             {
                 speed = 6;
                 speedPowerup = true;
             }
-            else if (((Powerup) other).r==2)
+            else if (((Powerup) other).r == 2)
             {
                 GameWorld.gameObjects.add(new Ball(context, GameWorld.getScreenX() / 2 - 5, GameWorld.getScreenY() - 110, GameWorld.getScreenX() / 2 + 5, GameWorld.getScreenY() - 100));
 
             }
-            else if (((Powerup) other).r==3)
+            else if (((Powerup) other).r == 3)
             {
-                
+
             }
 
         }

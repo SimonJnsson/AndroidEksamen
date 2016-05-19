@@ -23,7 +23,6 @@ abstract public class GameObject
         return paint;
     }
 
-
     protected Paint paint;
 
 

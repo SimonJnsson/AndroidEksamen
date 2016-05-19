@@ -5,7 +5,10 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
@@ -25,19 +28,21 @@ public class GameWorld extends SurfaceView implements Runnable
 
     static Thread gameThread = null;
 
-    static int getScreenX() {
+    static int getScreenX()
+    {
         return screenX;
     }
 
     static int screenX;
 
-    static int getScreenY() {
+    static int getScreenY()
+    {
         return screenY;
     }
 
     static int screenY;
     private Context context;
-
+    private MapChanger mapChanger;
     // Sound
     private SoundPool soundPool;
     int start = -1;
@@ -45,8 +50,13 @@ public class GameWorld extends SurfaceView implements Runnable
     int destroyed = -1;
     int win = -1;
 
+    static Player getPlayer()
+    {
+        return player;
+    }
+
     //Game objects
-    private Player player;
+    static Player player;
     private Ball ball;
     static CopyOnWriteArrayList<GameObject> gameObjects = new CopyOnWriteArrayList<GameObject>();
 
@@ -69,9 +79,13 @@ public class GameWorld extends SurfaceView implements Runnable
         // Attempt to load sounds
         loadSounds();
 
+        Typeface typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/game_over.ttf");
+
         // Initialize our drawing objects
         ourHolder = getHolder();
         paint = new Paint();
+        paint.setTypeface(typeFace);
+        mapChanger = new MapChanger(context);
 
         screenX = x;
         screenY = y;
@@ -118,6 +132,7 @@ public class GameWorld extends SurfaceView implements Runnable
 
     private void startGame()
     {
+        gameObjects.clear();
         gameEnded = false;
         playing = true;
 
@@ -170,6 +185,11 @@ public class GameWorld extends SurfaceView implements Runnable
 
     private void update()
     {
+        if (player.lives <= 0)
+        {
+            gameEnded = true;
+        }
+
         // Update the GameObjects
         for (GameObject go : gameObjects)
         {
@@ -189,15 +209,26 @@ public class GameWorld extends SurfaceView implements Runnable
 
             for (GameObject go : gameObjects)
             {
-//                if (go instanceof Ball)
-//                {
-//                    canvas.drawCircle(go.getObjRect().left, go.getObjRect().bottom, ((Ball) go).radius, go.getPaint());
-//                }
-//                else
-//                {
-                canvas.drawRect(go.getObjRect(), go.getPaint());
-//                }
+                if (go instanceof Ball)
+                {
+                    canvas.drawCircle(go.getObjRect().left, go.getObjRect().bottom, ((Ball) go).radius, go.getPaint());
+                }
+                else if (go instanceof Brick)
+                {
+                    canvas.drawBitmap(((Brick) go).getBitmap(), ((Brick) go).getObjRect().left, ((Brick) go).getObjRect().top, paint);
+                }
+                //  else if(go instanceof Player)
+                //  {
+                //canvas.drawRect(go.getObjRect(), go.getPaint());
+                //   canvas.drawBitmap(((Player) go).getBitmap(), go.x, go.y, paint);
+                //  }
+                else
+                {
+                    canvas.drawRect(go.getObjRect(), go.getPaint());
+                }
                 //canvas.drawCircle(go.x, go.y, go.getR(), go.getPaint());
+
+                // canvas.drawRect(go.getObjRect(), go.getPaint());
             }
 
             if (gameEnded)
@@ -207,6 +238,18 @@ public class GameWorld extends SurfaceView implements Runnable
                 paint.setTextSize(80);
                 paint.setTextAlign(Paint.Align.CENTER);
                 canvas.drawText("Game Over", screenX / 2, 100, paint);
+            }
+            else
+            {
+                paint.setColor(0xFFFFFFFF);
+
+                paint.setTextSize(100);
+                paint.setTextAlign(Paint.Align.LEFT);
+                canvas.drawText("SCORE: 213", 15, 50, paint);
+
+                paint.setTextSize(100);
+                paint.setTextAlign(Paint.Align.RIGHT);
+                canvas.drawText("LIVES: 3", screenX - 5, 50, paint);
             }
 
             // Unlock and draw the scene
@@ -234,7 +277,6 @@ public class GameWorld extends SurfaceView implements Runnable
 
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK)
         {
-
             // Has the player lifted their finger up?
             case MotionEvent.ACTION_UP:
                 break;
@@ -245,6 +287,10 @@ public class GameWorld extends SurfaceView implements Runnable
                 {
                     startGame();
                 }
+                if (!ball.isCanMove())
+                {
+                    ball.setCanMove(true);
+                }
                 break;
         }
         return true;
@@ -252,41 +298,42 @@ public class GameWorld extends SurfaceView implements Runnable
 
     public void Spawnbrick()
     {
-        int brickWidth = screenX / 10;
-        int brickHeight = screenY / 15;
-        float horizontalSpace = screenX * 0.005f;
-        for (int column = 0; column < 9; column++)
+        int brickWidth = screenX / 15;
+        int brickHeight = screenY / 20;
+       // float horizontalSpace = screenX * 0.005f;
+        float distanceToTop = brickHeight * 2;
+        for (int column = 0; column < 15; column++)
         {
-            float verticalSpace = screenX * 0.005f;
+           // float verticalSpace = screenX * 0.005f;
             for (int row = 0; row < 6; row++)
             {
-                brick = new Brick(context, column * brickWidth + horizontalSpace, row * brickHeight + verticalSpace, brickWidth * (column + 1) + horizontalSpace, brickHeight * (row + 1) + verticalSpace);
+                // brick = new Brick(context, column * brickWidth + horizontalSpace, row * brickHeight + verticalSpace, brickWidth * (column + 1) + horizontalSpace, brickHeight * (row + 1) + verticalSpace);
+                brick = new Brick(context, column * brickWidth, row * brickHeight + distanceToTop, brickWidth * (column + 1), brickHeight * (row + 1) + distanceToTop);
                 switch (row)
                 {
                     case 0:
-                        brick.getPaint().setColor(0xFF24BFF2);
-                        //brick.paint.setColor(0xFF00FF00);
+                        brick.setBitmap(R.drawable.b1);
                         break;
                     case 1:
-                        brick.getPaint().setColor(0xFF24F27D);
+                        brick.setBitmap(R.drawable.b2);
                         break;
                     case 2:
-                        brick.getPaint().setColor(0xFFF2E424);
+                        brick.setBitmap(R.drawable.b3);
                         break;
                     case 3:
-                        brick.getPaint().setColor(0xFFE041D3);
+                        brick.setBitmap(R.drawable.b4);
                         break;
                     case 4:
-                        brick.getPaint().setColor(0xFFE04441);
+                        brick.setBitmap(R.drawable.b5);
                         break;
                     case 5:
-                        brick.getPaint().setColor(0xFF41E041);
+                        brick.setBitmap(R.drawable.b6);
                         break;
                 }
                 gameObjects.add(brick);
-                verticalSpace += screenX * 0.012f;
+               // verticalSpace += screenX * 0.012f;
             }
-            horizontalSpace += screenX * 0.012f;
+           // horizontalSpace += screenX * 0.012f;
         }
     }
 }
