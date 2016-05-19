@@ -20,23 +20,10 @@ import android.view.Display;
  */
 public class Brick extends GameObject
 {
-    private Bitmap bitmap;
-
-    public Brick(Context context, float screenX, float screenY, float screenHeight, float screenWidth)
+    public Brick(Context context, float screenX, float screenY, float screenHeight, float screenWidth, int id)
     {
-        super(context, screenX, screenY, screenHeight, screenWidth);
+        super(context, screenX, screenY, screenHeight, screenWidth, id);
 
-    }
-
-    public Bitmap getBitmap()
-    {
-        return bitmap;
-    }
-
-    public void setBitmap(int id)
-    {
-        this.bitmap = BitmapFactory.decodeResource(context.getResources(), id);
-        bitmap = Bitmap.createScaledBitmap(bitmap, (int)Math.round(this.getObjRect().width()),(int)Math.round(this.getObjRect().height()),true);
     }
 
     public void destroy()
