@@ -25,6 +25,7 @@ public class Brick extends GameObject
     public Brick(Context context, float screenX, float screenY, float screenHeight, float screenWidth, int id)
     {
         super(context, screenX, screenY, screenHeight, screenWidth, id);
+    }
 
     public Bitmap getBitmap()
     {
@@ -39,13 +40,13 @@ public class Brick extends GameObject
 
     public void destroy()
     {
-        Random rnd = new Random();
-        int r = rnd.nextInt(10);
-        if (r==5)
-        {
-            int r2 = rnd.nextInt(GameWorld.getScreenX());
-            GameWorld.gameObjects.add(new Powerup(context, r2-10,20,100,r2+10));
-        }
+//        Random rnd = new Random();
+//        int r = rnd.nextInt(10);
+//        if (r==5)
+//        {
+//            int r2 = rnd.nextInt(GameWorld.getScreenX());
+//            GameWorld.gameObjects.add(new Powerup(context, r2-10,20,100,r2+10, 1, R.drawable.b1));
+//        }
         GameWorld.getGameObjects().remove(this); // Remove the other object
     }
 

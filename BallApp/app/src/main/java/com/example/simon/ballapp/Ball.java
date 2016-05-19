@@ -20,8 +20,8 @@ public class Ball extends GameObject
     int scrWidth, scrHeight;
     float speedY, speedX;
     float radius;
-    final MediaPlayer mp = MediaPlayer.create(context,R.raw.batSound);
-    final MediaPlayer mp2 = MediaPlayer.create(context,R.raw.brickSound);
+    final MediaPlayer mp = MediaPlayer.create(context,R.raw.batsound);
+    final MediaPlayer mp2 = MediaPlayer.create(context,R.raw.bricksound);
     private RectF startRect;
 
     public boolean isCanMove()
@@ -73,34 +73,10 @@ public class Ball extends GameObject
             speedY *= -1;
         }
 
-
         if (objRect.bottom >= scrHeight)
         {
             resetBall();
         }
-
-        // if (y > ?player.y?)
-        //{player loses 1 life, respawn ball}
-
-        /*
-        * if (ball collides with top of brick)
-        * speedY * -1;
-        * */
-
-        /*
-        * if (ball collides with bottom of brick)
-        * speedY * -1;
-        * */
-
-        /*
-        * if (ball collides with right side of brick)
-        * speedX * -1;
-        * */
-
-        /*
-        * if (ball collides with left side of brick)
-        * speedX * -1;
-        * */
 
         if (canMove)
         {
@@ -117,14 +93,14 @@ public class Ball extends GameObject
         GameWorld.getPlayer().lives--;
     }
 
-    private void positionBall()
+    public void positionBall()
     {
         int distToPlayer = 50;
         RectF playerRect = GameWorld.getPlayer().getObjRect();
         objRect.left = playerRect.left + ((playerRect.right - playerRect.left) / 2);
-        objRect.top = playerRect.top - radius * 2 - distToPlayer;
-        objRect.right = playerRect.left + radius * 2 + ((playerRect.right - playerRect.left) / 2);
-        objRect.bottom = playerRect.top + radius * 2 - distToPlayer;
+        objRect.top = playerRect.top - radius;
+        objRect.right = playerRect.left + radius + ((playerRect.right - playerRect.left) / 2);
+        objRect.bottom = playerRect.top;
     }
 
     public void Move()

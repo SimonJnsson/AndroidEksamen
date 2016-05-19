@@ -56,6 +56,7 @@ abstract public class GameObject
             if (go != this && hasCollision(go))
             {
                 onCollision(go);
+                break;
             }
         }
     }

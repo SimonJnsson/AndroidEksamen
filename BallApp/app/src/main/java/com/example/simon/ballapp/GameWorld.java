@@ -118,8 +118,7 @@ public class GameWorld extends SurfaceView implements Runnable
             bump = soundPool.load(descriptor, 0);
             descriptor = assetManager.openFd("destroyed.ogg");
             destroyed = soundPool.load(descriptor, 0);
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             //Print an error message to the console
             Log.e("error", "failed to load sound files");
@@ -144,9 +143,10 @@ public class GameWorld extends SurfaceView implements Runnable
 
         //Initialize game objects
         player = new Player(context, screenX / 2 - 180, screenY - 50, screenX / 2 + 50, screenY - 15, R.drawable.paddle);
-        ball = new Ball(context, screenX / 2 - 30, screenY - 30, screenX / 2 + 30, screenY + 30, R.drawable.ball);
+        ball = new Ball(context, screenX / 2 - 30, screenY -100, screenX / 2 + 30, screenY -40, R.drawable.ball);
 
         gameObjects.add(ball);
+        ball.positionBall();
         gameObjects.add(player);
         Spawnbrick();
     }
@@ -173,8 +173,7 @@ public class GameWorld extends SurfaceView implements Runnable
         try
         {
             gameThread.join();
-        }
-        catch (InterruptedException e)
+        } catch (InterruptedException e)
         {
 
         }
@@ -217,17 +216,14 @@ public class GameWorld extends SurfaceView implements Runnable
             {
                 if (go instanceof Ball)
                 {
-                    canvas.drawBitmap(go.getBitmap(),go.getObjRect().left, go.getObjRect().top, paint );
-                }
-                else if (go instanceof Brick)
+                    canvas.drawBitmap(go.getBitmap(), go.getObjRect().left, go.getObjRect().top, paint);
+                } else if (go instanceof Brick)
                 {
                     canvas.drawBitmap(go.getBitmap(), go.getObjRect().left, go.getObjRect().top, paint);
-                }
-                else if(go instanceof Player)
+                } else if (go instanceof Player)
                 {
                     canvas.drawBitmap(go.getBitmap(), go.getObjRect().left, go.getObjRect().top, paint);
-                }
-                else
+                } else
                 {
                     canvas.drawRect(go.getObjRect(), go.getPaint());
                 }
@@ -267,8 +263,7 @@ public class GameWorld extends SurfaceView implements Runnable
         try
         {
             gameThread.sleep(17);
-        }
-        catch (InterruptedException e)
+        } catch (InterruptedException e)
         {
         }
     }
@@ -304,12 +299,10 @@ public class GameWorld extends SurfaceView implements Runnable
     {
         int brickWidth = screenX / 15;
         int brickHeight = screenY / 20;
-        // float horizontalSpace = screenX * 0.005f;
         float distanceToTop = brickHeight * 2;
         int id = 0;
         for (int column = 0; column < 15; column++)
         {
-            // float verticalSpace = screenX * 0.005f;
             for (int row = 0; row < 6; row++)
             {
                 switch (row)
@@ -339,9 +332,6 @@ public class GameWorld extends SurfaceView implements Runnable
                 brick = new Brick(context, column * brickWidth, row * brickHeight + distanceToTop, brickWidth * (column + 1), brickHeight * (row + 1) + distanceToTop, id);
                 gameObjects.add(brick);
             }
-                // verticalSpace += screenX * 0.012f;
-            }
-            // horizontalSpace += screenX * 0.012f;
         }
     }
 }
