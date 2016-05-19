@@ -17,7 +17,7 @@ public class Powerup extends GameObject
     float radius;
     Random rnd = new Random();
 
-    public Powerup(Context context, float left, float top, float right, float bottom, int r)
+    public Powerup(Context context, float left, float top, float right, float bottom)
     {
         super(context, left, top, right, bottom);
 
@@ -28,7 +28,7 @@ public class Powerup extends GameObject
         speedX = 0;
         speedY = -10;
         radius = objRect.right - objRect.left;
-        this.r = rnd.nextInt(3);
+        r = rnd.nextInt(3);
         if (r ==1)
         {
             paint.setColor(0xFF00FF00);

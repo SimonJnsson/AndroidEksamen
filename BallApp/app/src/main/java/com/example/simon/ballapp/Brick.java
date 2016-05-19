@@ -15,6 +15,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 
+import java.util.Random;
+
 /**
  * Created by Danamian on 10-05-2016.
  */
@@ -41,6 +43,13 @@ public class Brick extends GameObject
 
     public void destroy()
     {
+        Random rnd = new Random();
+        int r = rnd.nextInt(10);
+        if (r==5)
+        {
+            int r2 = rnd.nextInt(GameWorld.getScreenX());
+            GameWorld.gameObjects.add(new Powerup(context, r2-10,20,100,r2+10));
+        }
         GameWorld.getGameObjects().remove(this); // Remove the other object
     }
 

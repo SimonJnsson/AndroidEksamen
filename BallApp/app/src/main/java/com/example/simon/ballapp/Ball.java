@@ -2,6 +2,7 @@ package com.example.simon.ballapp;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.media.MediaPlayer;
 import android.graphics.RectF;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -17,6 +18,8 @@ public class Ball extends GameObject
     int scrWidth, scrHeight;
     float speedY, speedX;
     float radius;
+    final MediaPlayer mp = MediaPlayer.create(context,R.raw.batSound);
+    final MediaPlayer mp2 = MediaPlayer.create(context,R.raw.brickSound);
     private RectF startRect;
 
     public boolean isCanMove()
@@ -166,10 +169,12 @@ public class Ball extends GameObject
                 RevertX();
             }
 
+            mp2.start();
             ((Brick) other).destroy();
         }
         else
         {
+            mp.start();
             RevertY();
         }
     }
