@@ -43,7 +43,7 @@ abstract public class GameObject
         y = top;
 
         bitmap = BitmapFactory.decodeResource(context.getResources(), id);
-        resizedBitmap = Bitmap.createScaledBitmap(bitmap, (int)Math.round(right) - (int)Math.round(left), (int)Math.round(bottom) - (int)Math.round(top), false);
+        resizedBitmap = Bitmap.createScaledBitmap(bitmap, Math.round(right) - Math.round(left), Math.round(bottom) - Math.round(top), false);
 
         paint = new Paint();
         this.context = context;

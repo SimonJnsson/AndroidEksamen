@@ -27,32 +27,14 @@ public class Brick extends GameObject
         super(context, screenX, screenY, screenHeight, screenWidth, id);
     }
 
-    public Bitmap getBitmap()
-    {
-        return bitmap;
-    }
-
-    public void setBitmap(int id)
-    {
-        this.bitmap = BitmapFactory.decodeResource(context.getResources(), id);
-        bitmap = Bitmap.createScaledBitmap(bitmap, (int) Math.round(this.getObjRect().width()), (int) Math.round(this.getObjRect().height()), true);
-    }
-
     public void destroy()
     {
-//        Random rnd = new Random();
-//        int r = rnd.nextInt(10);
-//        if (r==5)
-//        {
-//            int r2 = rnd.nextInt(GameWorld.getScreenX());
-//            GameWorld.gameObjects.add(new Powerup(context, r2-10,20,100,r2+10, 1, R.drawable.b1));
-//        }
+
         Random rnd = new Random();
         int r = rnd.nextInt(10);
-        if (r == 5)
+        if (r >= 5)
         {
-            int r2 = rnd.nextInt(GameWorld.getScreenX());
-            GameWorld.gameObjects.add(new Powerup(context, objRect.left, objRect.top, objRect.left + 20, objRect.top + 20));
+            GameWorld.gameObjects.add(new Powerup(context, objRect.left, objRect.top, objRect.left + 20, objRect.top + 20, R.drawable.b1));
         }
         GameWorld.getGameObjects().remove(this); // Remove the other object
     }

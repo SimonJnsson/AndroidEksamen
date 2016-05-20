@@ -12,6 +12,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 
 public class Player extends GameObject implements SensorEventListener
@@ -111,21 +112,25 @@ public class Player extends GameObject implements SensorEventListener
     {
         if (other instanceof Powerup)
         {
-            if (((Powerup) other).r == 1)
+            if (((Powerup) other).getPowerType() == Powerup.Type.SPEEDBOOST)
             {
+                Log.v("LOG", "Speed boost powerup collected");
                 speed = 6;
                 speedPowerup = true;
             }
-            else if (((Powerup) other).r == 2)
+            else if (((Powerup) other).getPowerType() == Powerup.Type.EXTRABALL)
             {
-                GameWorld.gameObjects.add(new Ball(context, GameWorld.getScreenX() / 2 - 5, GameWorld.getScreenY() - 110, GameWorld.getScreenX() / 2 + 5, GameWorld.getScreenY() - 100, R.drawable.ball));
-
+                Log.v("LOG", "Extra ball powerup collected");
+//                Ball newBall = new Ball(context, GameWorld.getScreenX() / 2 - 30, GameWorld.getScreenY() - 100, GameWorld.getScreenX() / 2 + 30, GameWorld.getScreenY() - 40, R.drawable.ball);
+//                GameWorld.getGameObjects().add(newBall);
+//                newBall.setCanMove(true);
             }
-            else if (((Powerup) other).r == 3)
+            else if (((Powerup) other).getPowerType() == Powerup.Type.LARGERPADDLE)
             {
-
+                Log.v("LOG", "Larger paddle powerup collected");
             }
 
+            GameWorld.getGameObjects().remove(other);
         }
 
     }

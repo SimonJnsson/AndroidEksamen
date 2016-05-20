@@ -28,6 +28,7 @@ public class GameWorld extends SurfaceView implements Runnable
 {
     static volatile boolean playing;
     static private boolean gameEnded;
+    private boolean levelCleared;
 
     static Thread gameThread = null;
 
@@ -81,9 +82,6 @@ public class GameWorld extends SurfaceView implements Runnable
         super(context);
         this.context = context;
 
-        // Attempt to load sounds
-        loadSounds();
-
         Typeface typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/game_over.ttf");
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener());
 
@@ -96,43 +94,10 @@ public class GameWorld extends SurfaceView implements Runnable
         screenX = x;
         screenY = y;
 
+        levelCleared = false;
+
         // Start the game
         startGame();
-    }
-
-    private void loadSounds()
-    {
-        // This SoundPool is deprecated but don't worry
-        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-        try
-        {
-            //Create objects of the 2 required classes
-            AssetManager assetManager = context.getAssets();
-            AssetFileDescriptor descriptor;
-            //create our three fx in memory ready for use
-            descriptor = assetManager.openFd("start.ogg");
-            start = soundPool.load(descriptor, 0);
-            descriptor = assetManager.openFd("win.ogg");
-            win = soundPool.load(descriptor, 0);
-            descriptor = assetManager.openFd("bump.ogg");
-            bump = soundPool.load(descriptor, 0);
-            descriptor = assetManager.openFd("destroyed.ogg");
-            destroyed = soundPool.load(descriptor, 0);
-        } catch (IOException e)
-        {
-            //Print an error message to the console
-            Log.e("error", "failed to load sound files");
-        }
-    }
-
-    public static float randNum(float min, float max)
-    {
-        Random rand = new Random();
-
-        // nextInt is normally exclusive of the top value, so add 1 to make it inclusive
-        float randomNum = rand.nextFloat() * (max - min) + min;
-
-        return randomNum;
     }
 
     private void startGame()
@@ -143,7 +108,7 @@ public class GameWorld extends SurfaceView implements Runnable
 
         //Initialize game objects
         player = new Player(context, screenX / 2 - 180, screenY - 50, screenX / 2 + 50, screenY - 15, R.drawable.paddle);
-        ball = new Ball(context, screenX / 2 - 30, screenY -100, screenX / 2 + 30, screenY -40, R.drawable.ball);
+        ball = new Ball(context, screenX / 2 - 30, screenY - 100, screenX / 2 + 30, screenY - 40, R.drawable.ball);
 
         gameObjects.add(ball);
         ball.positionBall();
@@ -173,7 +138,8 @@ public class GameWorld extends SurfaceView implements Runnable
         try
         {
             gameThread.join();
-        } catch (InterruptedException e)
+        }
+        catch (InterruptedException e)
         {
 
         }
@@ -200,6 +166,31 @@ public class GameWorld extends SurfaceView implements Runnable
         {
             go.update();
         }
+
+        if (bricksCleared())
+        {
+            levelCleared = true;
+            Spawnbrick();
+        }
+    }
+
+    // Check if all bricks have been removed from the game
+    private boolean bricksCleared()
+    {
+        for (GameObject obj : gameObjects)
+        {
+            // If the obj is of type Brick
+            if (obj instanceof Brick)
+            {
+                // Bricks still remain in the game,
+                // so return false
+                return false;
+            }
+        }
+
+        // If no object of type Brick was found
+        // Return true (all bricks have been cleared)
+        return true;
     }
 
     private void draw()
@@ -217,13 +208,16 @@ public class GameWorld extends SurfaceView implements Runnable
                 if (go instanceof Ball)
                 {
                     canvas.drawBitmap(go.getBitmap(), go.getObjRect().left, go.getObjRect().top, paint);
-                } else if (go instanceof Brick)
+                }
+                else if (go instanceof Brick)
                 {
                     canvas.drawBitmap(go.getBitmap(), go.getObjRect().left, go.getObjRect().top, paint);
-                } else if (go instanceof Player)
+                }
+                else if (go instanceof Player)
                 {
                     canvas.drawBitmap(go.getBitmap(), go.getObjRect().left, go.getObjRect().top, paint);
-                } else
+                }
+                else
                 {
                     canvas.drawRect(go.getObjRect(), go.getPaint());
                 }
@@ -253,6 +247,26 @@ public class GameWorld extends SurfaceView implements Runnable
                 canvas.drawText("LIVES: " + player.lives, screenX - 5, 50, paint);
             }
 
+            if (levelCleared)
+            {
+                paint.setTextAlign(Paint.Align.CENTER);
+                paint.setTextSize(100);
+                canvas.drawText("Level cleared", screenX / 2, screenY / 2 + 50, paint);
+
+                new java.util.Timer().schedule(
+                        new java.util.TimerTask()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                // your code here
+                                levelCleared = false;
+                            }
+                        },
+                        2500
+                );
+            }
+
             // Unlock and draw the scene
             ourHolder.unlockCanvasAndPost(canvas);
         }
@@ -263,7 +277,8 @@ public class GameWorld extends SurfaceView implements Runnable
         try
         {
             gameThread.sleep(17);
-        } catch (InterruptedException e)
+        }
+        catch (InterruptedException e)
         {
         }
     }
@@ -277,15 +292,13 @@ public class GameWorld extends SurfaceView implements Runnable
             // Has the player lifted their finger up?
             case MotionEvent.ACTION_UP:
                 break;
-            // Has the player touched the screen?
             case MotionEvent.ACTION_DOWN:
-//                 If we are currently on the pause screen, start a new game
-
                 if (gameEnded)
                 {
                     Intent i = new Intent(context, ScoreActivity.class);
                     context.startActivity(i);
                 }
+
                 if (!ball.isCanMove())
                 {
                     ball.setCanMove(true);

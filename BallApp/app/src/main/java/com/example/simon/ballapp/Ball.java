@@ -19,8 +19,8 @@ public class Ball extends GameObject
     int scrWidth, scrHeight;
     float speedY, speedX;
     float radius;
-    final MediaPlayer mp = MediaPlayer.create(context,R.raw.batsound);
-    final MediaPlayer mp2 = MediaPlayer.create(context,R.raw.bricksound);
+    final MediaPlayer mp = MediaPlayer.create(context, R.raw.batsound);
+    final MediaPlayer mp2 = MediaPlayer.create(context, R.raw.bricksound);
     private RectF startRect;
 
     public boolean isCanMove()
@@ -72,7 +72,7 @@ public class Ball extends GameObject
             speedY *= -1;
         }
 
-        if (objRect.bottom >= scrHeight)
+        if (objRect.top >= scrHeight)
         {
             resetBall();
         }
@@ -125,27 +125,31 @@ public class Ball extends GameObject
     @Override
     void onCollision(GameObject other)
     {
-        if (!(other instanceof Player) && other instanceof Brick)
+        if (other instanceof Brick)
         {
+            mp2.start();
             GameWorld.getPlayer().setScore(GameWorld.getPlayer().getScore() + 1);
 
             if (objRect.bottom >= other.objRect.bottom) // if the ball hits from below
             {
                 RevertY();
-            } else if (objRect.right >= other.objRect.right) // If the ball hits the right side
+            }
+            else if (objRect.right >= other.objRect.right) // If the ball hits the right side
             {
                 RevertX();
-            } else if (objRect.top <= other.objRect.top) // if the ball hits from above
+            }
+            else if (objRect.top <= other.objRect.top) // if the ball hits from above
             {
                 RevertY();
-            } else if (objRect.left <= other.objRect.left) // If the ball hits the left side
+            }
+            else if (objRect.left <= other.objRect.left) // If the ball hits the left side
             {
                 RevertX();
             }
 
-            mp2.start();
             ((Brick) other).destroy();
-        } else
+        }
+        else if (other instanceof Player)
         {
             mp.start();
             RevertY();
