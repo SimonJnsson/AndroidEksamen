@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.graphics.RectF;
+import android.os.Vibrator;
 import android.util.DisplayMetrics;
 
 /**
@@ -21,6 +22,12 @@ public class Ball extends GameObject
     float radius;
     final MediaPlayer mp = MediaPlayer.create(context, R.raw.batsound);
     final MediaPlayer mp2 = MediaPlayer.create(context, R.raw.bricksound);
+    final MediaPlayer batSound = MediaPlayer.create(context,R.raw.batsound);
+    final MediaPlayer brickSound = MediaPlayer.create(context,R.raw.bricksound);
+    final MediaPlayer deathSound = MediaPlayer.create(context,R.raw.deathsound);
+    Vibrator v = (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
+    final MediaPlayer mp = MediaPlayer.create(context,R.raw.batsound);
+    final MediaPlayer mp2 = MediaPlayer.create(context,R.raw.bricksound);
     private RectF startRect;
 
     public boolean isCanMove()
@@ -75,6 +82,8 @@ public class Ball extends GameObject
         if (objRect.top >= scrHeight)
         {
             resetBall();
+            deathSound.start();
+            v.vibrate(100);
         }
 
         if (canMove)
@@ -147,11 +156,20 @@ public class Ball extends GameObject
                 RevertX();
             }
 
+            if(brickSound.isPlaying())
+            {
+               brickSound.stop();
+            }
+            brickSound.start();
             ((Brick) other).destroy();
         }
         else if (other instanceof Player)
         {
-            mp.start();
+            if (batSound.isPlaying())
+            {
+                batSound.stop();
+            }
+            batSound.start();
             RevertY();
         }
     }
