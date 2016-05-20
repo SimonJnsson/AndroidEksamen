@@ -37,7 +37,6 @@ public class Player extends GameObject implements SensorEventListener
     private float speed;
     private boolean speedPowerup = false, ballPowerup = false;
 
-
     public Player(Context context, int left, int top, int right, int bottom, int id)
     {
         super(context, left, top, right, bottom, id);
@@ -84,7 +83,7 @@ public class Player extends GameObject implements SensorEventListener
     @Override
     public void onSensorChanged(SensorEvent event)
     {
-        if (objRect.left + event.values[1] * speed > 0 && objRect.right + event.values[1] * speed < scrWidth)
+        if (objRect.left + (event.values[1] * speed) > 0 && objRect.right + (event.values[1] * speed) < scrWidth)
         {
             objRect.left += event.values[1] * speed;
             objRect.right += event.values[1] * speed;
@@ -95,16 +94,6 @@ public class Player extends GameObject implements SensorEventListener
     public void onAccuracyChanged(Sensor sensor, int accuracy)
     {
 
-    }
-
-    public Bitmap getBitmap()
-    {
-        return bitmap;
-    }
-
-    public void setBitmap(Bitmap bitmap)
-    {
-        this.bitmap = bitmap;
     }
 
     @Override

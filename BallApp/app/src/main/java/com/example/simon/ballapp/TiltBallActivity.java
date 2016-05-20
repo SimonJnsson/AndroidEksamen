@@ -19,7 +19,7 @@ public class TiltBallActivity extends Activity
         Display display = getWindowManager().getDefaultDisplay();
         // Load the resolution into a Point object
         Point size = new Point();
-        display.getSize(size);
+        display.getRealSize(size);
 
         gameView = new GameWorld(this, size.x, size.y);
 

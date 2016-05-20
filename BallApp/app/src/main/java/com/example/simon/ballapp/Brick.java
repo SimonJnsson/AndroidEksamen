@@ -17,9 +17,6 @@ import android.view.Display;
 
 import java.util.Random;
 
-/**
- * Created by Danamian on 10-05-2016.
- */
 public class Brick extends GameObject
 {
     public Brick(Context context, float screenX, float screenY, float screenHeight, float screenWidth, int id)
@@ -29,13 +26,13 @@ public class Brick extends GameObject
 
     public void destroy()
     {
-
         Random rnd = new Random();
         int r = rnd.nextInt(10);
         if (r >= 5)
         {
             GameWorld.gameObjects.add(new Powerup(context, objRect.left, objRect.top, objRect.left + 20, objRect.top + 20, R.drawable.b1));
         }
+
         GameWorld.getGameObjects().remove(this); // Remove the other object
     }
 

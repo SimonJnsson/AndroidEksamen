@@ -1,9 +1,12 @@
 package com.example.simon.ballapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -18,6 +21,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,6 +51,7 @@ public class GameWorld extends SurfaceView implements Runnable
     static int screenY;
     private Context context;
     private MapChanger mapChanger;
+
     // Sound
     private SoundPool soundPool;
     int start = -1;
@@ -69,6 +74,7 @@ public class GameWorld extends SurfaceView implements Runnable
     private Canvas canvas;
     private SurfaceHolder ourHolder;
     private Brick brick;
+    private Bitmap bmp;
 
     static CopyOnWriteArrayList<GameObject> getGameObjects()
     {
@@ -81,6 +87,8 @@ public class GameWorld extends SurfaceView implements Runnable
     {
         super(context);
         this.context = context;
+
+        bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.bglight);
 
         Typeface typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/game_over.ttf");
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener());
@@ -106,9 +114,22 @@ public class GameWorld extends SurfaceView implements Runnable
         gameEnded = false;
         playing = true;
 
+        int distFromBottom = Math.round(screenY * 0.02f);
+
         //Initialize game objects
-        player = new Player(context, screenX / 2 - 180, screenY - 50, screenX / 2 + 50, screenY - 15, R.drawable.paddle);
-        ball = new Ball(context, screenX / 2 - 30, screenY - 100, screenX / 2 + 30, screenY - 40, R.drawable.ball);
+        player = new Player(context,
+                screenX / 2 - Math.round(screenX * 0.06f),
+                screenY - Math.round(screenY * 0.017f) - distFromBottom,
+                screenX / 2 + Math.round(screenX * 0.06f),
+                screenY + Math.round(screenY * 0.017f) - distFromBottom,
+                R.drawable.paddle);
+
+        ball = new Ball(context,
+                screenX / 2 - Math.round(screenX * 0.016f),
+                screenY - Math.round(screenX * 0.016f),
+                screenX / 2 + Math.round(screenX * 0.016f),
+                screenY + Math.round(screenX * 0.016f),
+                R.drawable.ball);
 
         gameObjects.add(ball);
         ball.positionBall();
@@ -202,6 +223,7 @@ public class GameWorld extends SurfaceView implements Runnable
 
             // Rub out the last frame
             canvas.drawColor(Color.argb(255, 0, 0, 0));
+            canvas.drawBitmap(bmp, 0, 0, paint);
 
             for (GameObject go : gameObjects)
             {
@@ -244,7 +266,7 @@ public class GameWorld extends SurfaceView implements Runnable
 
                 paint.setTextSize(100);
                 paint.setTextAlign(Paint.Align.RIGHT);
-                canvas.drawText("LIVES: " + player.lives, screenX - 5, 50, paint);
+                canvas.drawText("LIVES: " + player.lives, screenX, 50, paint);
             }
 
             if (levelCleared)
@@ -310,7 +332,7 @@ public class GameWorld extends SurfaceView implements Runnable
     {
         int brickWidth = screenX / 15;
         int brickHeight = screenY / 20;
-        float distanceToTop = brickHeight * 2;
+        float distanceToTop = brickHeight * 3;
         int id = 0;
         for (int column = 0; column < 15; column++)
         {

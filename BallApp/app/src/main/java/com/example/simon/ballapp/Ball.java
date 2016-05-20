@@ -18,7 +18,7 @@ public class Ball extends GameObject
     private int color;
     DisplayMetrics metrics;
     int scrWidth, scrHeight;
-    float speedY, speedX;
+    float startSpeed, speedY, speedX;
     float radius;
     final MediaPlayer mp = MediaPlayer.create(context, R.raw.batsound);
     final MediaPlayer mp2 = MediaPlayer.create(context, R.raw.bricksound);
@@ -49,8 +49,11 @@ public class Ball extends GameObject
         metrics = Resources.getSystem().getDisplayMetrics();
         scrHeight = metrics.heightPixels;
         scrWidth = metrics.widthPixels;
-        speedX = -8;
-        speedY = -8;
+
+        startSpeed = 12;
+        speedX = -startSpeed;
+        speedY = -startSpeed;
+
         radius = objRect.right - objRect.left;
         canMove = false;
 
@@ -96,7 +99,10 @@ public class Ball extends GameObject
         {
             canMove = true;
             Random rnd = new Random();
-            speedX = rnd.nextInt(8 - -8 + 1) + -8;
+            if(rnd.nextInt(2) == 0)
+            {
+                speedX *= -1;
+            }
         }
     }
 
@@ -104,8 +110,8 @@ public class Ball extends GameObject
     {
         canMove = false;
         positionBall();
-        speedX = -8;
-        speedY = -8;
+        speedX = -startSpeed;
+        speedY = -startSpeed;
         GameWorld.getPlayer().lives--;
     }
 
