@@ -8,10 +8,10 @@ import android.media.MediaPlayer;
 import android.graphics.RectF;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
-/**
- * Created by Patrick Q Jensen on 10-05-2016.
- */
+import java.util.Random;
+
 public class Ball extends GameObject
 {
 
@@ -22,12 +22,10 @@ public class Ball extends GameObject
     float radius;
     final MediaPlayer mp = MediaPlayer.create(context, R.raw.batsound);
     final MediaPlayer mp2 = MediaPlayer.create(context, R.raw.bricksound);
-    final MediaPlayer batSound = MediaPlayer.create(context,R.raw.batsound);
-    final MediaPlayer brickSound = MediaPlayer.create(context,R.raw.bricksound);
-    final MediaPlayer deathSound = MediaPlayer.create(context,R.raw.deathsound);
+    final MediaPlayer batSound = MediaPlayer.create(context, R.raw.batsound);
+    final MediaPlayer brickSound = MediaPlayer.create(context, R.raw.bricksound);
+    final MediaPlayer deathSound = MediaPlayer.create(context, R.raw.deathsound);
     Vibrator v = (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
-    final MediaPlayer mp = MediaPlayer.create(context,R.raw.batsound);
-    final MediaPlayer mp2 = MediaPlayer.create(context,R.raw.bricksound);
     private RectF startRect;
 
     public boolean isCanMove()
@@ -92,6 +90,16 @@ public class Ball extends GameObject
         }
     }
 
+    public void fireBall()
+    {
+        if (!canMove)
+        {
+            canMove = true;
+            Random rnd = new Random();
+            speedX = rnd.nextInt(8 - -8 + 1) + -8;
+        }
+    }
+
     private void resetBall()
     {
         canMove = false;
@@ -105,7 +113,7 @@ public class Ball extends GameObject
     {
         int distToPlayer = 50;
         RectF playerRect = GameWorld.getPlayer().getObjRect();
-        objRect.left = playerRect.left + ((playerRect.right - playerRect.left) / 2);
+        objRect.left = playerRect.left - (radius / 2) + ((playerRect.right - playerRect.left) / 2);
         objRect.top = playerRect.top - radius;
         objRect.right = playerRect.left + radius + ((playerRect.right - playerRect.left) / 2);
         objRect.bottom = playerRect.top;
@@ -139,26 +147,26 @@ public class Ball extends GameObject
             mp2.start();
             GameWorld.getPlayer().setScore(GameWorld.getPlayer().getScore() + 1);
 
-            if (objRect.bottom >= other.objRect.bottom) // if the ball hits from below
+            if (objRect.top - speedY >= other.objRect.bottom) // if the ball hits from below
             {
                 RevertY();
             }
-            else if (objRect.right >= other.objRect.right) // If the ball hits the right side
+            else if (objRect.right - speedX >= other.objRect.right) // If the ball hits the right side
             {
                 RevertX();
             }
-            else if (objRect.top <= other.objRect.top) // if the ball hits from above
+            else if (objRect.top + speedY <= other.objRect.top) // if the ball hits from above
             {
                 RevertY();
             }
-            else if (objRect.left <= other.objRect.left) // If the ball hits the left side
+            else if (objRect.left + speedX <= other.objRect.left) // If the ball hits the left side
             {
                 RevertX();
             }
 
-            if(brickSound.isPlaying())
+            if (brickSound.isPlaying())
             {
-               brickSound.stop();
+                brickSound.stop();
             }
             brickSound.start();
             ((Brick) other).destroy();
@@ -170,7 +178,34 @@ public class Ball extends GameObject
                 batSound.stop();
             }
             batSound.start();
-            RevertY();
+
+            // Check which side of he player is hit
+            if (objRect.centerX() > other.objRect.centerX())
+            {
+                // If the ball hits the right side and is approaching from the right side
+                if (speedX < 0) // Hit from right
+                {
+                    RevertX();
+                    RevertY();
+                }
+                else
+                {
+                    RevertY();
+                }
+            }
+            else
+            {
+                // If the ball hits the left side and is approaching from the left side
+                if (speedX > 0) // Hit from left
+                {
+                    RevertX();
+                    RevertY();
+                }
+                else
+                {
+                    RevertY();
+                }
+            }
         }
     }
 }

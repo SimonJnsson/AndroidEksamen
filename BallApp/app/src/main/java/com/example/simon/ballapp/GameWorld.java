@@ -253,6 +253,7 @@ public class GameWorld extends SurfaceView implements Runnable
                 paint.setTextSize(100);
                 canvas.drawText("Level cleared", screenX / 2, screenY / 2 + 50, paint);
 
+                // Stop displaying level cleared text after time has passed
                 new java.util.Timer().schedule(
                         new java.util.TimerTask()
                         {
@@ -299,10 +300,7 @@ public class GameWorld extends SurfaceView implements Runnable
                     context.startActivity(i);
                 }
 
-                if (!ball.isCanMove())
-                {
-                    ball.setCanMove(true);
-                }
+                ball.fireBall();
                 break;
         }
         return true;
