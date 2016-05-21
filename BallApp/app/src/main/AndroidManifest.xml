@@ -29,7 +29,8 @@
         <activity android:name=".OptionsMenuActivity"/>
         <activity
             android:name=".ScoreActivity"
-            android:label="Highscores">
+            android:label="Highscores"
+            android:windowSoftInputMode="stateVisible">
         </activity>
     </application>
 

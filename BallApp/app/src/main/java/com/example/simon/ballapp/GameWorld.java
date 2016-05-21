@@ -319,6 +319,7 @@ public class GameWorld extends SurfaceView implements Runnable
                 if (gameEnded)
                 {
                     Intent i = new Intent(context, ScoreActivity.class);
+                    i.putExtra("score", player.getScore());
                     context.startActivity(i);
                 }
 
