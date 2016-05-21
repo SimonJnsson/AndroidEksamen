@@ -63,10 +63,11 @@ public class GameWorld extends SurfaceView implements Runnable
     {
         return player;
     }
+   // static Ball getBall(){return ball;}
 
     //Game objects
     static Player player;
-    private Ball ball;
+    static Ball ball;
     static CopyOnWriteArrayList<GameObject> gameObjects = new CopyOnWriteArrayList<GameObject>();
 
     // For drawing
@@ -123,6 +124,7 @@ public class GameWorld extends SurfaceView implements Runnable
                 screenX / 2 + Math.round(screenX * 0.06f),
                 screenY + Math.round(screenY * 0.017f) - distFromBottom,
                 R.drawable.paddle);
+
 
         ball = new Ball(context,
                 screenX / 2 - Math.round(screenX * 0.016f),

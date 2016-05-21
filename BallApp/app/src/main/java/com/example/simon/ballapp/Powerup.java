@@ -14,7 +14,7 @@ public class Powerup extends GameObject
 {
     public enum Type
     {
-        EXTRABALL, LARGERPADDLE, SPEEDBOOST
+        EXTRABALL, LARGERPADDLE, SPEEDBOOST,PIERCING
     }
 
     DisplayMetrics metrics;
@@ -39,21 +39,26 @@ public class Powerup extends GameObject
         scrWidth = metrics.widthPixels;
         speedY = 10;
         radius = objRect.right - objRect.left;
-        r = rnd.nextInt(3);
+        r = rnd.nextInt(4);
+        if (r == 0)
+        {
+            powerType = Type.PIERCING;
+            paint.setColor(0xFFFFFF00); //yellow
+        }
         if (r == 1)
         {
             powerType = Type.EXTRABALL;
-            paint.setColor(0xFF00FF00);
+            paint.setColor(0xFF00FF00); //green
         }
         if (r == 2)
         {
             powerType = Type.SPEEDBOOST;
-            paint.setColor(0xFFFF0000);
+            paint.setColor(0xFFFF0000); //red
         }
         if (r == 3)
         {
             powerType = Type.LARGERPADDLE;
-            paint.setColor(0xFF0000FF);
+            paint.setColor(0xFF0000FF);//blue
         }
 
     }

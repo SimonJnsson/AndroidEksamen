@@ -61,6 +61,15 @@ abstract public class GameObject
         }
     }
 
+    public void reScale(GameObject object)
+    {
+        resizedBitmap = Bitmap.createScaledBitmap(bitmap,
+                Math.round(object.getObjRect().right) - Math.round(object.getObjRect().left),
+                Math.round(object.getObjRect().bottom) - Math.round(object.getObjRect().top),
+                false);
+    }
+
+
     public boolean hasCollision(GameObject go)
     {
         // Return true if the 2 rectangles intersect
