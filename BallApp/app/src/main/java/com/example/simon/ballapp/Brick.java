@@ -34,7 +34,6 @@ public class Brick extends GameObject
         if (entropyNum > 100)
         {
             GameWorld.gameObjects.add(new Powerup(context, objRect.left, objRect.top, objRect.left + 20, objRect.top + 20, R.drawable.light1));
-            GameWorld.gameObjects.add(new Powerup(context, objRect.left, objRect.top, objRect.left + 20, objRect.top + 20, R.drawable.b1));
             entropyNum -= 100;
         }
 
