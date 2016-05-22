@@ -2,58 +2,30 @@ package com.example.simon.ballapp;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
 import android.graphics.RectF;
-import android.os.Vibrator;
+import android.media.MediaPlayer;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
-import java.util.Random;
+/**
+ * Created by Patrick Q Jensen on 20-05-2016.
+ */
+public class ExtraBall extends GameObject {
 
-public class Ball extends GameObject
-{
-    private int color;
+
     DisplayMetrics metrics;
     int scrWidth, scrHeight;
     float startSpeed, speedY, speedX;
-    float radius;
-    final MediaPlayer mp = MediaPlayer.create(context, R.raw.batsound);
-    final MediaPlayer mp2 = MediaPlayer.create(context, R.raw.bricksound);
+    static float radius;
+    private RectF startRect;
+   // public boolean piercePowerup = false;
+
     final MediaPlayer batSound = MediaPlayer.create(context, R.raw.batsound);
     final MediaPlayer brickSound = MediaPlayer.create(context, R.raw.bricksound);
-    final MediaPlayer deathSound = MediaPlayer.create(context, R.raw.deathsound);
-    Vibrator v = (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
-    private RectF startRect;
-/*
-    public boolean isPiercePowerup() {
-        return piercePowerup;
-    }
 
-    public void setPiercePowerup(boolean piercePowerup) {
-        this.piercePowerup = piercePowerup;
-    }
-*/
-    public boolean piercePowerup = false;
-
-    public boolean isCanMove()
-    {
-        return canMove;
-    }
-
-    public void setCanMove(boolean canMove)
-    {
-        this.canMove = canMove;
-    }
-
-    private boolean canMove;
-
-    public Ball(Context context, float left, float top, float right, float bottom, int id)
+    public ExtraBall(Context context, float left, float top, float right, float bottom, int id)
     {
         super(context, left, top, right, bottom, id);
-
-        paint.setColor(0xFF00FF00);
+        paint.setColor(0xFF000000); //black
 
         metrics = Resources.getSystem().getDisplayMetrics();
         scrHeight = metrics.heightPixels;
@@ -64,20 +36,20 @@ public class Ball extends GameObject
         speedY = -startSpeed;
 
         radius = objRect.right - objRect.left;
-        canMove = false;
-
         startRect = objRect;
+
+        RectF playerRect = GameWorld.getPlayer().getObjRect();
+        objRect.left = playerRect.left - (radius / 2) + ((playerRect.right - playerRect.left) / 2 * 1.15f);
+        objRect.top = playerRect.top - radius;
+        objRect.right = playerRect.left + radius + ((playerRect.right - playerRect.left) / 2 / 1.15f );
+        objRect.bottom = playerRect.top ;
+
     }
 
     @Override
     public void update()
     {
         super.update();
-
-        if (!canMove)
-        {
-            positionBall();
-        }
 
         if (objRect.right >= scrWidth || objRect.left <= 0)
         {
@@ -87,52 +59,15 @@ public class Ball extends GameObject
         if (objRect.top <= 0)
         {
             speedY *= -1;
-            piercePowerup = false;
+           // piercePowerup = false;
         }
 
         if (objRect.top >= scrHeight)
         {
-            resetBall();
-            deathSound.start();
-            v.vibrate(100);
+            GameWorld.getGameObjects().remove(this);
         }
 
-        if (canMove)
-        {
-            Move();
-        }
-    }
-
-    public void fireBall()
-    {
-        if (!canMove)
-        {
-            canMove = true;
-            Random rnd = new Random();
-            if(rnd.nextInt(2) == 0)
-            {
-                speedX *= -1;
-            }
-        }
-    }
-
-    private void resetBall()
-    {
-        canMove = false;
-        positionBall();
-        speedX = -startSpeed;
-        speedY = -startSpeed;
-        GameWorld.getPlayer().lives--;
-    }
-
-    public void positionBall()
-    {
-        int distToPlayer = 50;
-        RectF playerRect = GameWorld.getPlayer().getObjRect();
-        objRect.left = playerRect.left - (radius / 2) + ((playerRect.right - playerRect.left) / 2);
-        objRect.top = playerRect.top - radius;
-        objRect.right = playerRect.left + radius + ((playerRect.right - playerRect.left) / 2);
-        objRect.bottom = playerRect.top;
+        Move();
     }
 
     public void Move()
@@ -154,16 +89,15 @@ public class Ball extends GameObject
         speedY *= -1;
     }
 
-
     @Override
     void onCollision(GameObject other)
     {
         if (other instanceof Brick)
         {
-            mp2.start();
+            brickSound.start();
             GameWorld.getPlayer().setScore(GameWorld.getPlayer().getScore() + 1);
-            if (!piercePowerup)
-            {
+          //  if (!piercePowerup)
+           // {
                 if (objRect.top - speedY >= other.objRect.bottom) // if the ball hits from below
                 {
                     RevertY();
@@ -177,7 +111,7 @@ public class Ball extends GameObject
                 {
                     RevertX();
                 }
-            }
+          //  }
 
             if (brickSound.isPlaying())
             {
@@ -222,5 +156,7 @@ public class Ball extends GameObject
                 }
             }
         }
+
+
     }
 }

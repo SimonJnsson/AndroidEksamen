@@ -33,9 +33,9 @@ public class Player extends GameObject implements SensorEventListener
 
     int score;
     private RectF startRect;
-    int scrWidth, scrHeight, powerupTimer;
+    int scrWidth, scrHeight, speedPowerupTimer, paddlePowerupTimer;
     private float speed;
-    private boolean speedPowerup = false, ballPowerup = false;
+    private boolean speedPowerup = false, ballPowerup = false, paddlePowerup = false;
 
     public Player(Context context, int left, int top, int right, int bottom, int id)
     {
@@ -52,7 +52,7 @@ public class Player extends GameObject implements SensorEventListener
 
         lives = 3;
         score = 0;
-        speed = 3;
+        speed = 5;
     }
 
     @Override
@@ -71,13 +71,40 @@ public class Player extends GameObject implements SensorEventListener
 
         if (speedPowerup)
         {
-            powerupTimer++;
-            if (powerupTimer <= 300)
+            speedPowerupTimer++;
+            if (speedPowerupTimer >= 150)
             {
                 speedPowerup = false;
-                speed = 3;
+                speed = 5;
+                speedPowerupTimer = 0;
             }
         }
+        if (paddlePowerup)
+        {
+            paddlePowerupTimer++;
+            if (paddlePowerupTimer >= 150)
+            {
+                GameWorld.player.objRect.right -= 80;
+                GameWorld.player.objRect.left += 80;
+                GameWorld.player.reScale(this);
+                paddlePowerup = false;
+                paddlePowerupTimer = 0;
+            }
+        }
+
+        /*if (powerupTimer >= 100)
+        {
+            GameWorld.gameObjects.add(new ExtraBall(context,
+                    GameWorld.getScreenX() / 2 - Math.round(GameWorld.getScreenX() * 0.016f),
+                    GameWorld.getScreenY() - Math.round(GameWorld.getScreenX() * 0.016f),
+                    GameWorld.getScreenX() / 2 + Math.round(GameWorld.getScreenX() * 0.016f),
+                    GameWorld.getScreenY() + Math.round(GameWorld.getScreenX() * 0.016f),
+                    R.drawable.ball
+            ));
+            powerupTimer = 0;
+        }
+
+        powerupTimer++;*/
     }
 
     @Override
@@ -94,30 +121,44 @@ public class Player extends GameObject implements SensorEventListener
     public void onAccuracyChanged(Sensor sensor, int accuracy)
     {
 
-    }
+}
 
     @Override
     void onCollision(GameObject other)
     {
         if (other instanceof Powerup)
         {
-            if (((Powerup) other).getPowerType() == Powerup.Type.SPEEDBOOST)
+            if (((Powerup) other).getPowerType() == Powerup.Type.SPEEDBOOST) //red
             {
-                Log.v("LOG", "Speed boost powerup collected");
-                speed = 6;
+                speed = 10;
                 speedPowerup = true;
             }
-            else if (((Powerup) other).getPowerType() == Powerup.Type.EXTRABALL)
+            else if (((Powerup) other).getPowerType() == Powerup.Type.EXTRABALL) //green
             {
                 Log.v("LOG", "Extra ball powerup collected");
-//                Ball newBall = new Ball(context, GameWorld.getScreenX() / 2 - 30, GameWorld.getScreenY() - 100, GameWorld.getScreenX() / 2 + 30, GameWorld.getScreenY() - 40, R.drawable.ball);
-//                GameWorld.getGameObjects().add(newBall);
-//                newBall.setCanMove(true);
+                GameWorld.gameObjects.add(new ExtraBall(context,
+                        GameWorld.getScreenX() / 2 - Math.round(GameWorld.getScreenX() * 0.016f),
+                        GameWorld.getScreenY() - Math.round(GameWorld.getScreenX() * 0.016f),
+                        GameWorld.getScreenX() / 2 + Math.round(GameWorld.getScreenX() * 0.016f),
+                        GameWorld.getScreenY() + Math.round(GameWorld.getScreenX() * 0.016f),
+                        R.drawable.ball
+                        ));
             }
-            else if (((Powerup) other).getPowerType() == Powerup.Type.LARGERPADDLE)
+            else if (((Powerup) other).getPowerType() == Powerup.Type.LARGERPADDLE) //blue
             {
-                Log.v("LOG", "Larger paddle powerup collected");
+                if (!paddlePowerup)
+                {
+                    GameWorld.player.objRect.right += 80;
+                    GameWorld.player.objRect.left -= 80;
+                    GameWorld.player.reScale(this);
+                    paddlePowerup = true;
+                }
             }
+            else if (((Powerup) other).getPowerType() == Powerup.Type.PIERCING) //yellow
+            {
+                GameWorld.ball.piercePowerup = true;
+            }
+
 
             GameWorld.getGameObjects().remove(other);
         }
