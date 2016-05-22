@@ -30,7 +30,7 @@ public class Brick extends GameObject
         int r = rnd.nextInt(10);
         if (r >= 5)
         {
-            GameWorld.gameObjects.add(new Powerup(context, objRect.left, objRect.top, objRect.left + 20, objRect.top + 20, R.drawable.b1));
+            GameWorld.gameObjects.add(new Powerup(context, objRect.left, objRect.top, objRect.left + 20, objRect.top + 20, R.drawable.light1));
         }
 
         GameWorld.getGameObjects().remove(this); // Remove the other object

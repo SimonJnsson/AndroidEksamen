@@ -74,7 +74,10 @@ public class GameWorld extends SurfaceView implements Runnable
     private Canvas canvas;
     private SurfaceHolder ourHolder;
     private Brick brick;
-    private Bitmap bmp;
+
+
+    private Bitmap bgDark;
+    private Bitmap bgLight;
 
     static CopyOnWriteArrayList<GameObject> getGameObjects()
     {
@@ -88,7 +91,8 @@ public class GameWorld extends SurfaceView implements Runnable
         super(context);
         this.context = context;
 
-        bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.bglight);
+        bgDark = BitmapFactory.decodeResource(context.getResources(), R.drawable.bgdark);
+        bgLight = BitmapFactory.decodeResource(context.getResources(), R.drawable.bglight);
 
         Typeface typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/game_over.ttf");
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener());
@@ -223,7 +227,15 @@ public class GameWorld extends SurfaceView implements Runnable
 
             // Rub out the last frame
             canvas.drawColor(Color.argb(255, 0, 0, 0));
-            canvas.drawBitmap(bmp, 0, 0, paint);
+
+            if (mapChanger.isNight())
+            {
+                canvas.drawBitmap(bgDark, 0, 0, paint);
+            }
+            else
+            {
+                canvas.drawBitmap(bgLight, 0, 0, paint);
+            }
 
             for (GameObject go : gameObjects)
             {
@@ -238,6 +250,7 @@ public class GameWorld extends SurfaceView implements Runnable
                 else if (go instanceof Player)
                 {
                     canvas.drawBitmap(go.getBitmap(), go.getObjRect().left, go.getObjRect().top, paint);
+
                 }
                 else
                 {
@@ -341,25 +354,25 @@ public class GameWorld extends SurfaceView implements Runnable
                 switch (row)
                 {
                     case 0:
-                        id = R.drawable.b1;
+                        id = R.drawable.light1;
                         break;
                     case 1:
-                        id = R.drawable.b2;
+                        id = R.drawable.light2;
                         break;
                     case 2:
-                        id = R.drawable.b3;
+                        id = R.drawable.light3;
                         break;
                     case 3:
-                        id = R.drawable.b4;
+                        id = R.drawable.light4;
                         break;
                     case 4:
-                        id = R.drawable.b5;
+                        id = R.drawable.light5;
                         break;
                     case 5:
-                        id = R.drawable.b6;
+                        id = R.drawable.light6;
                         break;
                     default:
-                        id = R.drawable.b1;
+                        id = R.drawable.light1;
                         break;
                 }
                 brick = new Brick(context, column * brickWidth, row * brickHeight + distanceToTop, brickWidth * (column + 1), brickHeight * (row + 1) + distanceToTop, id);
