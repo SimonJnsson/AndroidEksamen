@@ -262,6 +262,14 @@ public class GameWorld extends SurfaceView implements Runnable
 
             if (gameEnded)
             {
+                if (mapChanger.isNight())
+                {
+                    paint.setColor(0xFFFFFFFF);
+                }
+                else
+                {
+                    paint.setColor(0xFF000000);
+                }
                 //this happens when the game is ended
                 // Show pause screen
                 paint.setTextSize(160);

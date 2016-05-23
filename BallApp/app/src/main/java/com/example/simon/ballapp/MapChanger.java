@@ -54,29 +54,24 @@ public class MapChanger implements SensorEventListener
                     {
                         case 2130837589:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.dark1);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837590:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.dark2);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837591:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.dark3);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837592:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.dark4);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837593:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.dark5);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837594:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.dark6);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                     }
+                    obj.setResizedBitmap(obj, bitmap);
                 }
             }
         }
@@ -91,29 +86,24 @@ public class MapChanger implements SensorEventListener
                     {
                         case 2130837589:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.light1);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837590:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.light2);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837591:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.light3);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837592:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.light4);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837593:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.light5);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837594:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.light6);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                     }
+                    obj.setResizedBitmap(obj, bitmap);
                 }
             }
         }
