@@ -9,7 +9,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.simon.ballapp.ScoreActivity">
+    tools:context="com.example.simon.ballapp.ScoreActivity"
+    android:background="@drawable/bglight">
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
@@ -47,6 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/etUsername"
         android:layout_centerHorizontal="true"
-        android:text="Confirm"/>
+        android:text="Confirm"
+        android:background="@drawable/light3"/>
 
 </RelativeLayout>

@@ -33,7 +33,7 @@ public class Brick extends GameObject
         entropyNum += chanceToSpawn;
         if (entropyNum > 100)
         {
-            GameWorld.gameObjects.add(new Powerup(context, objRect.left, objRect.top, objRect.left + 20, objRect.top + 20, R.drawable.dark1));
+            GameWorld.gameObjects.add(new Powerup(context, objRect.left, objRect.top, objRect.left + 50, objRect.top + 50, R.drawable.dark1));
             entropyNum -= 100;
         }
 

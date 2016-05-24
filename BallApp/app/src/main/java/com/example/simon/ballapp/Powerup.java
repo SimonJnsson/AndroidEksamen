@@ -19,7 +19,7 @@ public class Powerup extends GameObject
     }
 
     DisplayMetrics metrics;
-    int scrWidth, scrHeight, r;
+    int scrWidth, scrHeight;
     float speedY, speedX;
     float radius;
     Random rnd = new Random();
@@ -40,38 +40,29 @@ public class Powerup extends GameObject
         scrWidth = metrics.widthPixels;
         speedY = 10;
         radius = objRect.right - objRect.left;
-        r = rnd.nextInt(4);
-        if (r == 0)
+        switch (rnd.nextInt(4))
         {
-            powerType = Type.PIERCING;
-            id = R.drawable.dark1;
-            bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.powerupyellow);
-        }
-        if (r == 1)
-        {
-            powerType = Type.EXTRABALL;
-            id = R.drawable.dark5;
-            bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.powerupgreen);
-        }
-        if (r == 2)
-        {
-            powerType = Type.SPEEDBOOST;
-            id = R.drawable.dark3;
-            bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.powerupred);
-        }
-        if (r == 3)
-        {
-            powerType = Type.LARGERPADDLE;
-            id = R.drawable.dark2;
+            case 0:
+                powerType = Type.PIERCING;
+                id = R.drawable.powerupyellow;
+                break;
+            case 1:
+                powerType = Type.EXTRABALL;
+                id = R.drawable.powerupgreen;
+                break;
+            case 2:
+                powerType = Type.SPEEDBOOST;
+                id = R.drawable.powerupred;
+                break;
+            case 3:
+                powerType = Type.LARGERPADDLE;
+                id = R.drawable.powerupblue;
+                break;
         }
 
         setResizedBitmap(this, BitmapFactory.decodeResource(context.getResources(), id));
-            bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.powerupblue);
-        }
-
-        this.setResizedBitmap(this, bitmap);
-
     }
+
 
     @Override
     public void update()

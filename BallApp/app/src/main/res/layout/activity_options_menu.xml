@@ -7,16 +7,18 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.simon.ballapp.OptionsMenuActivity">
+    tools:context="com.example.simon.ballapp.OptionsMenuActivity"
+                android:background="@drawable/bglight">
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back"
         android:id="@+id/btnBack"
+        android:layout_marginBottom="56dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="102dp" />
+        android:background="@drawable/light6"/>
 
     <Switch
         android:layout_width="wrap_content"
@@ -25,7 +27,7 @@
         android:id="@+id/switchSound"
         android:checked="false"
         android:enabled="true"
+        android:layout_marginTop="73dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="134dp" />
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>

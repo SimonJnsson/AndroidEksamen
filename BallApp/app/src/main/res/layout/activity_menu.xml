@@ -8,7 +8,8 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                tools:context="com.example.simon.ballapp.MenuActivity">
+                tools:context="com.example.simon.ballapp.MenuActivity"
+                android:background="@drawable/bglight">
 
     <Button
         android:id="@+id/btnPlay"
@@ -17,7 +18,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="113dp"
-        android:text="Play game"/>
+        android:text="Play game"
+        android:background="@drawable/light1"/>
 
     <Button
         android:id="@+id/btnOptions"
@@ -25,7 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Options"/>
+        android:text="Options"
+        android:background="@drawable/light2"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -35,5 +38,6 @@
         android:layout_below="@+id/btnOptions"
         android:layout_marginTop="37dp"
         android:layout_alignStart="@+id/btnOptions"
-        android:layout_alignEnd="@+id/btnOptions"/>
+        android:layout_alignEnd="@+id/btnOptions"
+        android:background="@drawable/light3"/>
 </RelativeLayout>
