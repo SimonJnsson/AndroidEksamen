@@ -2,6 +2,7 @@ package com.example.simon.ballapp;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
 
 import java.util.Random;
@@ -44,22 +45,28 @@ public class Powerup extends GameObject
         {
             powerType = Type.PIERCING;
             paint.setColor(0xFFFFFF00); //yellow
+            bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.powerupyellow);
         }
         if (r == 1)
         {
             powerType = Type.EXTRABALL;
             paint.setColor(0xFF00FF00); //green
+            bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.powerupgreen);
         }
         if (r == 2)
         {
             powerType = Type.SPEEDBOOST;
             paint.setColor(0xFFFF0000); //red
+            bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.powerupred);
         }
         if (r == 3)
         {
             powerType = Type.LARGERPADDLE;
             paint.setColor(0xFF0000FF);//blue
+            bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.powerupblue);
         }
+
+        this.setResizedBitmap(this, bitmap);
 
     }
 
