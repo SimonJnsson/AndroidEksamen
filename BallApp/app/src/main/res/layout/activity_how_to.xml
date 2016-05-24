@@ -16,8 +16,172 @@
         android:layout_height="wrap_content"
         android:text="Back"
         android:id="@+id/btnBackHelp"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/light6"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="55dp"
-        android:background="@drawable/light6"/>
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView android:id="@+id/image_view_paddle"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:adjustViewBounds="true"
+               android:maxWidth="60dp"
+               android:maxHeight="60dp"
+               android:scaleType="fitCenter"
+               android:layout_marginLeft="3dp"
+               android:src="@drawable/paddle"
+               android:layout_alignParentTop="true"
+               android:layout_alignParentStart="true"
+               android:layout_marginTop="24dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Steer left and right to move the paddle. "
+        android:id="@+id/textView"
+        android:layout_alignTop="@+id/image_view_paddle"
+        android:layout_toEndOf="@+id/image_view_paddle"/>
+
+    <ImageView android:id="@+id/image_view_ball"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:adjustViewBounds="true"
+               android:maxWidth="60dp"
+               android:maxHeight="60dp"
+               android:scaleType="fitCenter"
+               android:layout_marginLeft="3dp"
+               android:src="@drawable/ball"
+               android:layout_marginTop="21dp"
+               android:layout_below="@+id/textView"
+               android:layout_alignEnd="@+id/imageView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Press on the screen to launch the ball. \nAvoid dropping the ball into the ground else, you will lose health."
+        android:id="@+id/textView2"
+        android:layout_alignTop="@+id/image_view_ball"
+        android:layout_alignStart="@+id/textView"/>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxWidth="60dp"
+        android:maxHeight="60dp"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="3dp"
+        android:src="@drawable/dark6"
+        android:layout_marginTop="21dp"
+        android:layout_below="@+id/textView2"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Destroy all the bricks to achieve victory. \nBricks will randomly drop powerups which will help you destroy even more bricks. "
+        android:id="@+id/textView_brick"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_alignStart="@+id/textView2"/>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxWidth="60dp"
+        android:maxHeight="60dp"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="0dp"
+        android:src="@drawable/powerupblue"
+        android:layout_alignTop="@+id/textView3_blue"
+        android:layout_alignEnd="@+id/imageView"
+        android:layout_alignStart="@+id/image_view_ball"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Increases the width of the paddle."
+        android:id="@+id/textView3_blue"
+        android:layout_below="@+id/textView_brick"
+        android:layout_alignStart="@+id/textView_brick"
+        android:layout_marginTop="18dp"/>
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxWidth="60dp"
+        android:maxHeight="60dp"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="0dp"
+        android:src="@drawable/powerupgreen"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/imageView2"
+        android:layout_alignEnd="@+id/imageView"
+        android:layout_alignStart="@+id/imageView2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Spawns an extra ball which doesn’t remove health when it falls into the ground"
+        android:id="@+id/textView3_green"
+        android:layout_alignTop="@+id/imageView3"
+        android:layout_alignStart="@+id/textView3_blue"/>
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxWidth="60dp"
+        android:maxHeight="60dp"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="0dp"
+        android:src="@drawable/powerupred"
+        android:layout_marginTop="12dp"
+        android:layout_below="@+id/textView3_green"
+        android:layout_alignStart="@+id/imageView3"
+        android:layout_alignEnd="@+id/imageView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Increases the paddle’s speed."
+        android:id="@+id/textView3"
+        android:layout_alignTop="@+id/imageView4"
+        android:layout_alignStart="@+id/textView3_green"/>
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxWidth="60dp"
+        android:maxHeight="60dp"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="0dp"
+        android:src="@drawable/powerupyellow"
+        android:layout_marginTop="19dp"
+        android:layout_below="@+id/imageView4"
+        android:layout_alignStart="@+id/imageView4"
+        android:layout_alignEnd="@+id/imageView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Allows your ball to pierce through the bricks without bouncing."
+        android:id="@+id/textView4"
+        android:layout_alignTop="@+id/imageView5"
+        android:layout_alignStart="@+id/textView3"/>
+
 </RelativeLayout>
