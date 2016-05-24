@@ -6,10 +6,8 @@ import android.graphics.RectF;
 import android.media.MediaPlayer;
 import android.util.DisplayMetrics;
 
-/**
- * Created by Patrick Q Jensen on 20-05-2016.
- */
-public class ExtraBall extends GameObject {
+public class ExtraBall extends GameObject
+{
 
 
     DisplayMetrics metrics;
@@ -17,7 +15,6 @@ public class ExtraBall extends GameObject {
     float startSpeed, speedY, speedX;
     static float radius;
     private RectF startRect;
-   // public boolean piercePowerup = false;
 
     final MediaPlayer batSound = MediaPlayer.create(context, R.raw.batsound);
     final MediaPlayer brickSound = MediaPlayer.create(context, R.raw.bricksound);
@@ -36,13 +33,12 @@ public class ExtraBall extends GameObject {
         speedY = -startSpeed;
 
         radius = objRect.right - objRect.left;
-        startRect = objRect;
 
         RectF playerRect = GameWorld.getPlayer().getObjRect();
         objRect.left = playerRect.left - (radius / 2) + ((playerRect.right - playerRect.left) / 2 * 1.15f);
         objRect.top = playerRect.top - radius;
-        objRect.right = playerRect.left + radius + ((playerRect.right - playerRect.left) / 2 / 1.15f );
-        objRect.bottom = playerRect.top ;
+        objRect.right = playerRect.left + radius + ((playerRect.right - playerRect.left) / 2 / 1.15f);
+        objRect.bottom = playerRect.top;
 
     }
 
@@ -59,7 +55,7 @@ public class ExtraBall extends GameObject {
         if (objRect.top <= 0)
         {
             speedY *= -1;
-           // piercePowerup = false;
+            // piercePowerup = false;
         }
 
         if (objRect.top >= scrHeight)
@@ -96,22 +92,25 @@ public class ExtraBall extends GameObject {
         {
             brickSound.start();
             GameWorld.getPlayer().setScore(GameWorld.getPlayer().getScore() + 1);
-          //  if (!piercePowerup)
-           // {
-                if (objRect.top - speedY >= other.objRect.bottom) // if the ball hits from below
-                {
-                    RevertY();
-                } else if (objRect.right - speedX >= other.objRect.right) // If the ball hits the right side
-                {
-                    RevertX();
-                } else if (objRect.top + speedY <= other.objRect.top) // if the ball hits from above
-                {
-                    RevertY();
-                } else if (objRect.left + speedX <= other.objRect.left) // If the ball hits the left side
-                {
-                    RevertX();
-                }
-          //  }
+            //  if (!piercePowerup)
+            // {
+            if (objRect.top - speedY >= other.objRect.bottom) // if the ball hits from below
+            {
+                RevertY();
+            }
+            else if (objRect.right - speedX >= other.objRect.right) // If the ball hits the right side
+            {
+                RevertX();
+            }
+            else if (objRect.top + speedY <= other.objRect.top) // if the ball hits from above
+            {
+                RevertY();
+            }
+            else if (objRect.left + speedX <= other.objRect.left) // If the ball hits the left side
+            {
+                RevertX();
+            }
+            //  }
 
             if (brickSound.isPlaying())
             {

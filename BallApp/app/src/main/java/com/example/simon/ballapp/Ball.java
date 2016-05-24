@@ -24,17 +24,9 @@ public class Ball extends GameObject
     final MediaPlayer batSound = MediaPlayer.create(context, R.raw.batsound);
     final MediaPlayer brickSound = MediaPlayer.create(context, R.raw.bricksound);
     final MediaPlayer deathSound = MediaPlayer.create(context, R.raw.deathsound);
-    Vibrator v = (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
-    private RectF startRect;
-/*
-    public boolean isPiercePowerup() {
-        return piercePowerup;
-    }
 
-    public void setPiercePowerup(boolean piercePowerup) {
-        this.piercePowerup = piercePowerup;
-    }
-*/
+    Vibrator v = (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
+
     public boolean piercePowerup = false;
 
     public boolean isCanMove()
@@ -65,8 +57,6 @@ public class Ball extends GameObject
 
         radius = objRect.right - objRect.left;
         canMove = false;
-
-        startRect = objRect;
     }
 
     @Override
@@ -109,7 +99,7 @@ public class Ball extends GameObject
         {
             canMove = true;
             Random rnd = new Random();
-            if(rnd.nextInt(2) == 0)
+            if (rnd.nextInt(2) == 0)
             {
                 speedX *= -1;
             }
@@ -127,7 +117,6 @@ public class Ball extends GameObject
 
     public void positionBall()
     {
-        int distToPlayer = 50;
         RectF playerRect = GameWorld.getPlayer().getObjRect();
         objRect.left = playerRect.left - (radius / 2) + ((playerRect.right - playerRect.left) / 2);
         objRect.top = playerRect.top - radius;
@@ -167,13 +156,16 @@ public class Ball extends GameObject
                 if (objRect.top - speedY >= other.objRect.bottom) // if the ball hits from below
                 {
                     RevertY();
-                } else if (objRect.right - speedX >= other.objRect.right) // If the ball hits the right side
+                }
+                else if (objRect.right - speedX >= other.objRect.right) // If the ball hits the right side
                 {
                     RevertX();
-                } else if (objRect.top + speedY <= other.objRect.top) // if the ball hits from above
+                }
+                else if (objRect.top + speedY <= other.objRect.top) // if the ball hits from above
                 {
                     RevertY();
-                } else if (objRect.left + speedX <= other.objRect.left) // If the ball hits the left side
+                }
+                else if (objRect.left + speedX <= other.objRect.left) // If the ball hits the left side
                 {
                     RevertX();
                 }

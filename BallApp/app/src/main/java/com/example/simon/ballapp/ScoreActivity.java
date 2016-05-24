@@ -2,9 +2,11 @@ package com.example.simon.ballapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -66,5 +68,19 @@ public class ScoreActivity extends Activity implements View.OnClickListener
             btnConfirm.setVisibility(View.INVISIBLE);
             etUsername.setVisibility(View.INVISIBLE);
         }
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if (keyCode == KeyEvent.KEYCODE_BACK)
+        {// Create a new Intent object
+            Intent i = new Intent(this, TiltBallActivity.class);
+            // Start our GameActivity class via the Intent
+            startActivity(i);
+            // Now shut this activity down
+            finish();
+            return true;
+        }
+        return false;
     }
 }

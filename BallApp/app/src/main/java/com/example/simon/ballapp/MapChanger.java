@@ -22,7 +22,8 @@ public class MapChanger implements SensorEventListener
     private SensorManager mSensorManager;
     private Sensor mLight;
 
-    public boolean isNight() {
+    public boolean isNight()
+    {
         return isNight;
     }
 
@@ -42,45 +43,44 @@ public class MapChanger implements SensorEventListener
     @Override
     public void onSensorChanged(SensorEvent event)
     {
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.dark1);
-        if (event.sensor.getType() == Sensor.TYPE_LIGHT && event.values[0] <= 150 && !isNight)
+        Bitmap bitmap;
+        if (event.sensor.getType() == Sensor.TYPE_LIGHT && event.values[0] <= 50 && !isNight)
         {
             isNight = true;
             for (GameObject obj : GameWorld.getGameObjects())
             {
+                int test = obj.getId();
                 if (obj instanceof Brick)
                 {
                     switch (obj.getId())
                     {
                         case 2130837589:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.dark1);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837590:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.dark2);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837591:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.dark3);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837592:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.dark4);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837593:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.dark5);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837594:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.dark6);
-                            obj.setResizedBitmap(obj, bitmap);
+                            break;
+                        default:
+                            bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.dark1);
                             break;
                     }
+                    obj.setResizedBitmap(obj, bitmap);
                 }
             }
         }
-        else if (event.sensor.getType() == Sensor.TYPE_LIGHT && event.values[0] >= 400 && isNight)
+        else if (event.sensor.getType() == Sensor.TYPE_LIGHT && event.values[0] >= 70 && isNight)
         {
             isNight = false;
             for (GameObject obj : GameWorld.getGameObjects())
@@ -91,29 +91,27 @@ public class MapChanger implements SensorEventListener
                     {
                         case 2130837589:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.light1);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837590:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.light2);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837591:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.light3);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837592:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.light4);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837593:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.light5);
-                            obj.setResizedBitmap(obj, bitmap);
                             break;
                         case 2130837594:
                             bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.light6);
-                            obj.setResizedBitmap(obj, bitmap);
+                            break;
+                        default:
+                            bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.dark1);
                             break;
                     }
+                    obj.setResizedBitmap(obj, bitmap);
                 }
             }
         }

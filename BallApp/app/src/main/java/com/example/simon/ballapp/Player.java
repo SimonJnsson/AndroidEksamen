@@ -91,20 +91,6 @@ public class Player extends GameObject implements SensorEventListener
                 paddlePowerupTimer = 0;
             }
         }
-
-        /*if (powerupTimer >= 100)
-        {
-            GameWorld.gameObjects.add(new ExtraBall(context,
-                    GameWorld.getScreenX() / 2 - Math.round(GameWorld.getScreenX() * 0.016f),
-                    GameWorld.getScreenY() - Math.round(GameWorld.getScreenX() * 0.016f),
-                    GameWorld.getScreenX() / 2 + Math.round(GameWorld.getScreenX() * 0.016f),
-                    GameWorld.getScreenY() + Math.round(GameWorld.getScreenX() * 0.016f),
-                    R.drawable.ball
-            ));
-            powerupTimer = 0;
-        }
-
-        powerupTimer++;*/
     }
 
     @Override
@@ -121,7 +107,7 @@ public class Player extends GameObject implements SensorEventListener
     public void onAccuracyChanged(Sensor sensor, int accuracy)
     {
 
-}
+    }
 
     @Override
     void onCollision(GameObject other)
@@ -141,8 +127,8 @@ public class Player extends GameObject implements SensorEventListener
                         GameWorld.getScreenY() - Math.round(GameWorld.getScreenX() * 0.016f),
                         GameWorld.getScreenX() / 2 + Math.round(GameWorld.getScreenX() * 0.016f),
                         GameWorld.getScreenY() + Math.round(GameWorld.getScreenX() * 0.016f),
-                        R.drawable.ball
-                        ));
+                        R.drawable.extraball
+                ));
             }
             else if (((Powerup) other).getPowerType() == Powerup.Type.LARGERPADDLE) //blue
             {
