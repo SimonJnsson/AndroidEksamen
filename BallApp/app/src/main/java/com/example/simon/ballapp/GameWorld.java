@@ -63,7 +63,7 @@ public class GameWorld extends SurfaceView implements Runnable
     {
         return player;
     }
-   // static Ball getBall(){return ball;}
+    // static Ball getBall(){return ball;}
 
     //Game objects
     static Player player;
@@ -80,6 +80,8 @@ public class GameWorld extends SurfaceView implements Runnable
     private Bitmap bgDark;
     private Bitmap bgLight;
 
+    private Activity activity;
+
     static CopyOnWriteArrayList<GameObject> getGameObjects()
     {
         return gameObjects;
@@ -87,16 +89,18 @@ public class GameWorld extends SurfaceView implements Runnable
 
     GestureDetector gestureDetector;
 
-    public GameWorld(Context context, int x, int y)
+    public GameWorld(Context context, int x, int y, Activity activity)
     {
         super(context);
         this.context = context;
+        this.activity = activity;
 
         bgDark = BitmapFactory.decodeResource(context.getResources(), R.drawable.bgdark);
         bgLight = BitmapFactory.decodeResource(context.getResources(), R.drawable.bglight);
 
+        this.activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         Typeface typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/game_over.ttf");
-        gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener());
+
 
         // Initialize our drawing objects
         ourHolder = getHolder();
@@ -228,8 +232,6 @@ public class GameWorld extends SurfaceView implements Runnable
             canvas = ourHolder.lockCanvas();
 
             // Rub out the last frame
-            canvas.drawColor(Color.argb(255, 0, 0, 0));
-
             if (mapChanger.isNight())
             {
                 canvas.drawBitmap(bgDark, 0, 0, paint);
@@ -241,23 +243,7 @@ public class GameWorld extends SurfaceView implements Runnable
 
             for (GameObject go : gameObjects)
             {
-                if (go instanceof Ball)
-                {
-                    canvas.drawBitmap(go.getBitmap(), go.getObjRect().left, go.getObjRect().top, paint);
-                }
-                else if (go instanceof Brick)
-                {
-                    canvas.drawBitmap(go.getBitmap(), go.getObjRect().left, go.getObjRect().top, paint);
-                }
-                else if (go instanceof Player)
-                {
-                    canvas.drawBitmap(go.getBitmap(), go.getObjRect().left, go.getObjRect().top, paint);
-
-                }
-                else
-                {
-                    canvas.drawRect(go.getObjRect(), go.getPaint());
-                }
+                canvas.drawBitmap(go.getBitmap(), go.getObjRect().left, go.getObjRect().top, paint);
             }
 
             if (gameEnded)
@@ -277,7 +263,6 @@ public class GameWorld extends SurfaceView implements Runnable
                 canvas.drawText("Game Over", screenX / 2, screenY / 2, paint);
                 paint.setTextSize(100);
                 canvas.drawText("Tap to view score", screenX / 2, screenY / 2 + 50, paint);
-                canvas.drawText("Long press to retry", screenX / 2, screenY / 2 + 100, paint);
             }
             else
             {
@@ -337,6 +322,7 @@ public class GameWorld extends SurfaceView implements Runnable
         {
             // Has the player lifted their finger up?
             case MotionEvent.ACTION_UP:
+                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
                 break;
             case MotionEvent.ACTION_DOWN:
                 if (gameEnded)

@@ -26,4 +26,14 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="Options"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Help"
+        android:id="@+id/btnHelp"
+        android:layout_below="@+id/btnOptions"
+        android:layout_marginTop="37dp"
+        android:layout_alignStart="@+id/btnOptions"
+        android:layout_alignEnd="@+id/btnOptions"/>
 </RelativeLayout>

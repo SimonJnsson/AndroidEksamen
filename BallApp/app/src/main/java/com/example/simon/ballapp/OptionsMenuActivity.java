@@ -9,7 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 
-public class OptionsMenuActivity extends AppCompatActivity implements View.OnClickListener {
+public class OptionsMenuActivity extends AppCompatActivity implements View.OnClickListener
+{
 
     SharedPreferences sharedPreferences;
     Button btnBack;
@@ -19,21 +20,23 @@ public class OptionsMenuActivity extends AppCompatActivity implements View.OnCli
     SharedPreferences.Editor editor;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options_menu);
-        btnBack = (Button) findViewById(R.id.btnPlay);
+        btnBack = (Button) findViewById(R.id.btnBack);
         switchSound = (Switch) findViewById(R.id.switchSound);
 
         btnBack.setOnClickListener(this);
         switchSound.setOnClickListener(this);
 
         sharedPreferences = getSharedPreferences(myPref, Context.MODE_PRIVATE);
-         editor = sharedPreferences.edit();
+        editor = sharedPreferences.edit();
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         if (v.equals(btnBack))
         {
             Intent i = new Intent(this, MenuActivity.class);
@@ -42,8 +45,8 @@ public class OptionsMenuActivity extends AppCompatActivity implements View.OnCli
 
         if (v.equals(switchSound))
         {
-            sound=!sound;
-            editor.putBoolean("soundBool",sound);
+            sound = !sound;
+            editor.putBoolean("soundBool", sound);
         }
 
     }

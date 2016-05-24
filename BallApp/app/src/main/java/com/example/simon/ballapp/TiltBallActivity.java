@@ -21,7 +21,7 @@ public class TiltBallActivity extends Activity
         Point size = new Point();
         display.getRealSize(size);
 
-        gameView = new GameWorld(this, size.x, size.y);
+        gameView = new GameWorld(this, size.x, size.y, this);
 
         // Make our gameView the view for the Activity
         setContentView(gameView);
