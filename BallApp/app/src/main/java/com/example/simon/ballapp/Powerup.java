@@ -45,16 +45,19 @@ public class Powerup extends GameObject
         {
             powerType = Type.PIERCING;
             id = R.drawable.dark1;
+            bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.powerupyellow);
         }
         if (r == 1)
         {
             powerType = Type.EXTRABALL;
             id = R.drawable.dark5;
+            bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.powerupgreen);
         }
         if (r == 2)
         {
             powerType = Type.SPEEDBOOST;
             id = R.drawable.dark3;
+            bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.powerupred);
         }
         if (r == 3)
         {
@@ -63,6 +66,11 @@ public class Powerup extends GameObject
         }
 
         setResizedBitmap(this, BitmapFactory.decodeResource(context.getResources(), id));
+            bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.powerupblue);
+        }
+
+        this.setResizedBitmap(this, bitmap);
+
     }
 
     @Override
