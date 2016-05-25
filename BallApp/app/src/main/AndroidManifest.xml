@@ -15,10 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MenuActivity">
+            android:name=".MenuActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -27,15 +27,19 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
-        <activity android:name=".OptionsMenuActivity"
-                  android:label="Options"/>
+        <activity
+            android:name=".OptionsMenuActivity"
+            android:label="Options"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ScoreActivity"
             android:label="Highscores"
             android:windowSoftInputMode="stateVisible">
         </activity>
-        <activity android:name=".howToActivity"
-                  android:label="Breakout - How to play">
+        <activity
+            android:name=".howToActivity"
+            android:label="Breakout - How to play"
+            android:screenOrientation="portrait">
 
         </activity>
     </application>

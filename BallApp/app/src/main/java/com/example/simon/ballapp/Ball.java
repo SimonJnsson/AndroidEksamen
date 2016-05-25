@@ -1,9 +1,8 @@
 package com.example.simon.ballapp;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.graphics.RectF;
 import android.os.Vibrator;
@@ -14,30 +13,20 @@ import java.util.Random;
 
 public class Ball extends GameObject
 {
-    private int color;
     DisplayMetrics metrics;
-    int scrWidth, scrHeight;
+    private boolean soundDisabled;
+    SharedPreferences prefs;
+    private int scrWidth, scrHeight;
     float startSpeed, speedY, speedX;
     float radius;
-    final MediaPlayer mp = MediaPlayer.create(context, R.raw.batsound);
-    final MediaPlayer mp2 = MediaPlayer.create(context, R.raw.bricksound);
-    final MediaPlayer batSound = MediaPlayer.create(context, R.raw.batsound);
-    final MediaPlayer brickSound = MediaPlayer.create(context, R.raw.bricksound);
-    final MediaPlayer deathSound = MediaPlayer.create(context, R.raw.deathsound);
+
+    final MediaPlayer batSound;
+    final MediaPlayer brickSound;
+    final MediaPlayer deathSound;
 
     Vibrator v = (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
 
     public boolean piercePowerup = false;
-
-    public boolean isCanMove()
-    {
-        return canMove;
-    }
-
-    public void setCanMove(boolean canMove)
-    {
-        this.canMove = canMove;
-    }
 
     private boolean canMove;
 
@@ -46,6 +35,11 @@ public class Ball extends GameObject
         super(context, left, top, right, bottom, id);
 
         paint.setColor(0xFF00FF00);
+
+        prefs = context.getSharedPreferences("myPref", context.MODE_PRIVATE);
+
+        soundDisabled = prefs.getBoolean("soundBool", true);
+        Log.v("LOG", "Sound is: " + soundDisabled);
 
         metrics = Resources.getSystem().getDisplayMetrics();
         scrHeight = metrics.heightPixels;
@@ -57,6 +51,10 @@ public class Ball extends GameObject
 
         radius = objRect.right - objRect.left;
         canMove = false;
+
+        batSound = MediaPlayer.create(context, R.raw.batsound);
+        brickSound = MediaPlayer.create(context, R.raw.bricksound);
+        deathSound = MediaPlayer.create(context, R.raw.deathsound);
     }
 
     @Override
@@ -83,7 +81,10 @@ public class Ball extends GameObject
         if (objRect.top >= scrHeight)
         {
             resetBall();
-            deathSound.start();
+            if (!soundDisabled)
+            {
+                deathSound.start();
+            }
             v.vibrate(100);
         }
 
@@ -149,7 +150,6 @@ public class Ball extends GameObject
     {
         if (other instanceof Brick)
         {
-            mp2.start();
             GameWorld.getPlayer().setScore(GameWorld.getPlayer().getScore() + 1);
             if (!piercePowerup)
             {
@@ -175,7 +175,11 @@ public class Ball extends GameObject
             {
                 brickSound.stop();
             }
-            brickSound.start();
+            if (!soundDisabled)
+            {
+                brickSound.start();
+            }
+
             ((Brick) other).destroy();
         }
         else if (other instanceof Player)
@@ -184,7 +188,10 @@ public class Ball extends GameObject
             {
                 batSound.stop();
             }
-            batSound.start();
+            if (!soundDisabled)
+            {
+                batSound.start();
+            }
 
             // Check which side of he player is hit
             if (objRect.centerX() > other.objRect.centerX())

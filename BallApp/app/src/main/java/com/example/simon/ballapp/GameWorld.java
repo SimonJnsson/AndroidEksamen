@@ -274,7 +274,7 @@ public class GameWorld extends SurfaceView implements Runnable
 
                 paint.setTextSize(100);
                 paint.setTextAlign(Paint.Align.RIGHT);
-                canvas.drawText("LIVES: " + player.lives, screenX, 50, paint);
+                canvas.drawText("LIVES: " + player.lives, screenX - 15, 50, paint);
             }
 
             if (levelCleared)
