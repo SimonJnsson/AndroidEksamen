@@ -107,7 +107,7 @@ public class DBHandler extends SQLiteOpenHelper
                 {
                     if (c.getInt(c.getColumnIndex(COLOUMN_SCORE)) > 0)
                     {
-                        result += c.getString(c.getColumnIndex(COLOUMN_NAME)) + " - " + c.getString(c.getColumnIndex(COLOUMN_SCORE)) + "\n";
+                        result += c.getInt(c.getColumnIndex(COLOUMN_ID)) + " " + c.getString(c.getColumnIndex(COLOUMN_NAME)) + ": " + c.getString(c.getColumnIndex(COLOUMN_SCORE)) + "\n";
                     }
                 }
             }

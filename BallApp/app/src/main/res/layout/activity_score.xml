@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.simon.ballapp.ScoreActivity"
-    android:background="@drawable/bglight">
+    >
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
@@ -30,8 +30,9 @@
         android:layout_alignEnd="@+id/etUsername"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/etUsername"
-        android:textAlignment="center"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:maxLines="10"
+        android:textSize="20dp"/>
 
     <EditText
         android:id="@+id/etUsername"

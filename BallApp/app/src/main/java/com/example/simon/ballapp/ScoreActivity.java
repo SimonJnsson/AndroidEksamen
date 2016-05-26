@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -22,6 +23,7 @@ public class ScoreActivity extends Activity implements View.OnClickListener
     Button btnConfirm;
     EditText etUsername;
     TextView highscoreView;
+    Toast toast;
     DBHandler db;
     int score;
 
@@ -31,6 +33,7 @@ public class ScoreActivity extends Activity implements View.OnClickListener
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_score);
+        toast = Toast.makeText(this, "Invalid name", Toast.LENGTH_SHORT);
 
         btnConfirm = (Button) findViewById(R.id.btnConfirm);
         etUsername = (EditText) findViewById(R.id.etUsername);
@@ -59,14 +62,21 @@ public class ScoreActivity extends Activity implements View.OnClickListener
     {
         if (v.equals(btnConfirm))
         {
-            User user = new User(etUsername.getText().toString(), score);
-            db.adduser(user);
+            if (!etUsername.getText().toString().equals(""))
+            {
+                User user = new User(etUsername.getText().toString(), score);
+                db.adduser(user);
 
-            highscoreView.setText(db.ToString(true));
+                highscoreView.setText(db.ToString(true));
 
-            highscoreView.setVisibility(View.VISIBLE);
-            btnConfirm.setVisibility(View.INVISIBLE);
-            etUsername.setVisibility(View.INVISIBLE);
+                highscoreView.setVisibility(View.VISIBLE);
+                btnConfirm.setVisibility(View.INVISIBLE);
+                etUsername.setVisibility(View.INVISIBLE);
+            }
+            else
+            {
+                toast.show();
+            }
         }
     }
 

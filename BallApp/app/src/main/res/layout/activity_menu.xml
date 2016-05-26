@@ -9,7 +9,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 tools:context="com.example.simon.ballapp.MenuActivity"
-                android:background="@drawable/bglight">
+    >
 
     <Button
         android:id="@+id/btnPlay"
@@ -25,10 +25,10 @@
         android:id="@+id/btnOptions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:text="Options"
-        android:background="@drawable/light2"/>
+        android:background="@drawable/light2"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/btnPlay"/>
 
     <Button
         android:layout_width="wrap_content"
