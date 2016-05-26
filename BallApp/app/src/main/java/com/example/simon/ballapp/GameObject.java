@@ -21,6 +21,7 @@ abstract public class GameObject
     {
         return objRect;
     }
+
     //Current state / information of the application
     protected Context context;
 
@@ -28,8 +29,10 @@ abstract public class GameObject
     {
         return paint;
     }
+
     //Paint is used for drawing the game objects.
     protected Paint paint;
+
     //Returns resized bitmap
     public Bitmap getBitmap()
     {
@@ -37,6 +40,7 @@ abstract public class GameObject
     }
 
     protected Bitmap bitmap;
+
     //Takes a GameObject and Bitmap and creates a rescaled bitmap.
     public void setResizedBitmap(GameObject object, Bitmap bm)
     {
@@ -44,12 +48,15 @@ abstract public class GameObject
     }
 
     protected Bitmap resizedBitmap;
+
     //Gets the ID of the objects drawable.
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
     protected int id;
+
     // Constructor
     public GameObject(Context context, float left, float top, float right, float bottom, int id)
     {
@@ -63,6 +70,7 @@ abstract public class GameObject
         paint = new Paint();
         this.context = context;
     }
+
     //Checks for Collision on every GameObject
     public void update()
     {
@@ -75,6 +83,7 @@ abstract public class GameObject
             }
         }
     }
+
     //Rescale is used for rescaling the bitmap when were instantiating the object
     public void reScale(GameObject object)
     {

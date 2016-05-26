@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 //SurfaceView uses special rendering, so the game will be smoother. Runnable is a method which has a thread included.
 public class GameWorld extends SurfaceView implements Runnable
 {
@@ -82,11 +83,13 @@ public class GameWorld extends SurfaceView implements Runnable
     private Bitmap bgLight;
 
     private Activity activity;
+
     //Makes sure that the program wont crash if we edit while were using the list. It creates a copy of the current one and edits.
     static CopyOnWriteArrayList<GameObject> getGameObjects()
     {
         return gameObjects;
     }
+
     //Touch censor
     GestureDetector gestureDetector;
 
@@ -118,6 +121,7 @@ public class GameWorld extends SurfaceView implements Runnable
         // Start the game
         startGame();
     }
+
     //Creates the game. It creates player, ball and calls the method "SpawnBricks"
     private void startGame()
     {
@@ -148,6 +152,7 @@ public class GameWorld extends SurfaceView implements Runnable
         gameObjects.add(player);
         Spawnbrick();
     }
+
     //The gameloop
     @Override
     public void run()
@@ -163,6 +168,7 @@ public class GameWorld extends SurfaceView implements Runnable
             control();
         }
     }
+
     //Stops the thread if the user minimizes the game.
     static public void pause()
     {
@@ -186,6 +192,7 @@ public class GameWorld extends SurfaceView implements Runnable
         gameThread = new Thread(this);
         gameThread.start();
     }
+
     //Calls update on every game object and checks if the user has the won game.
     private void update()
     {
@@ -305,6 +312,7 @@ public class GameWorld extends SurfaceView implements Runnable
             ourHolder.unlockCanvasAndPost(canvas);
         }
     }
+
     //Limits the FPS to be more than 60
     private void control()
     {
@@ -333,6 +341,7 @@ public class GameWorld extends SurfaceView implements Runnable
                     Intent i = new Intent(context, ScoreActivity.class);
                     i.putExtra("score", player.getScore());
                     context.startActivity(i);
+                    activity.finish();
                 }
 
                 ball.fireBall();
@@ -340,6 +349,7 @@ public class GameWorld extends SurfaceView implements Runnable
         }
         return true;
     }
+
     //Spawns the gamebricks. It spawns the bricks.
     public void Spawnbrick()
     {

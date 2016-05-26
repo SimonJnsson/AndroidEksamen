@@ -34,6 +34,7 @@ public class howToActivity extends AppCompatActivity implements View.OnClickList
             Intent i = new Intent(this, MenuActivity.class);
             // Start the new activity
             startActivity(i);
+            finish();
         }
     }
 }

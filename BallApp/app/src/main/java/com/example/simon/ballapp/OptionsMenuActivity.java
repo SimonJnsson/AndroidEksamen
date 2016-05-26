@@ -54,6 +54,7 @@ public class OptionsMenuActivity extends Activity implements View.OnClickListene
         {
             Intent i = new Intent(this, MenuActivity.class);
             startActivity(i);
+            finish();
         }
 
         // If the switch is clicked

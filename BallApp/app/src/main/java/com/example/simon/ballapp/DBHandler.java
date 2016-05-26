@@ -63,6 +63,7 @@ public class DBHandler extends SQLiteOpenHelper
         SQLiteDatabase db = getWritableDatabase();
         // Delete from TABLE
         db.execSQL("DELETE FROM " + TABLE_USER + " WHERE " + COLOUMN_NAME + "=\"" + name + "\";");
+        db.close();
     }
 
     // Used to clear the table (for testing purposes)
@@ -72,6 +73,7 @@ public class DBHandler extends SQLiteOpenHelper
         db.execSQL("DELETE FROM " + TABLE_USER);
         Log.i("LOG", "Log: Table cleared");
         Log.i("LOG", "Log: \n" + this.ToString(false));
+        db.close();
     }
 
     // Used to set score on an already inserted user (no longer in use)
@@ -104,6 +106,7 @@ public class DBHandler extends SQLiteOpenHelper
             score = c.getInt(c.getColumnIndex(COLOUMN_SCORE));
         }
 
+        db.close();
         // return the found score
         return score;
     }
@@ -111,6 +114,7 @@ public class DBHandler extends SQLiteOpenHelper
     // Used to print content of the table
     public String ToString(boolean formatTheString)
     {
+        int userNum = 1;
         Log.i("LOG", "Log - Content of database: " + TABLE_USER + "\n");
         // Establish writable connection to the db
         SQLiteDatabase db = getWritableDatabase();
@@ -137,7 +141,8 @@ public class DBHandler extends SQLiteOpenHelper
                 {
                     if (c.getInt(c.getColumnIndex(COLOUMN_SCORE)) > 0)
                     {
-                        result += c.getInt(c.getColumnIndex(COLOUMN_ID)) + " " + c.getString(c.getColumnIndex(COLOUMN_NAME)) + ": " + c.getString(c.getColumnIndex(COLOUMN_SCORE)) + "\n";
+                        result += userNum + " " + c.getString(c.getColumnIndex(COLOUMN_NAME)) + ": " + c.getString(c.getColumnIndex(COLOUMN_SCORE)) + "\n";
+                        userNum++;
                     }
                 }
             }

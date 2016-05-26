@@ -35,16 +35,19 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         {
             Intent i = new Intent(this, TiltBallActivity.class);
             startActivity(i);
+            finish();
         }
         else if (v.equals(btnOptions))
         {
             Intent i = new Intent(this, OptionsMenuActivity.class);
             startActivity(i);
+            finish();
         }
         else if (v.equals(btnHelp))
         {
             Intent i = new Intent(this, howToActivity.class);
             startActivity(i);
+            finish();
         }
 
     }
