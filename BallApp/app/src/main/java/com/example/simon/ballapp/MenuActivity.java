@@ -8,7 +8,7 @@ import android.widget.Button;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener
 {
-
+    // Fields for needed button
     Button btnPlay, btnOptions, btnHelp;
 
     @Override
@@ -16,10 +16,12 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        // Get references for buttons
         btnPlay = (Button) findViewById(R.id.btnPlay);
         btnOptions = (Button) findViewById(R.id.btnOptions);
         btnHelp = (Button) findViewById(R.id.btnHelp);
 
+        // Apply onClickListeners to the buttons
         btnPlay.setOnClickListener(this);
         btnOptions.setOnClickListener(this);
         btnHelp.setOnClickListener(this);
@@ -28,6 +30,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v)
     {
+        // Check which button is clicked and start the matching Activity
         if (v.equals(btnPlay))
         {
             Intent i = new Intent(this, TiltBallActivity.class);

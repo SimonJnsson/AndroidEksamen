@@ -17,6 +17,7 @@ public class User
 
     public User(String username, int score)
     {
+        // A user contains a string and int for username and score
         this.username = username;
         this.score = score;
     }
