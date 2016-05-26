@@ -27,9 +27,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
-
+//SurfaceView uses special rendering, so the game will be smoother. Runnable is a method which has a thread included.
 public class GameWorld extends SurfaceView implements Runnable
 {
+
     static volatile boolean playing;
     static private boolean gameEnded;
     private boolean levelCleared;
@@ -81,12 +82,12 @@ public class GameWorld extends SurfaceView implements Runnable
     private Bitmap bgLight;
 
     private Activity activity;
-
+    //Makes sure that the program wont crash if we edit while were using the list. It creates a copy of the current one and edits.
     static CopyOnWriteArrayList<GameObject> getGameObjects()
     {
         return gameObjects;
     }
-
+    //Touch censor
     GestureDetector gestureDetector;
 
     public GameWorld(Context context, int x, int y, Activity activity)
@@ -94,11 +95,12 @@ public class GameWorld extends SurfaceView implements Runnable
         super(context);
         this.context = context;
         this.activity = activity;
-
+        //Creates bitmap for the background
         bgDark = BitmapFactory.decodeResource(context.getResources(), R.drawable.bgdark);
         bgLight = BitmapFactory.decodeResource(context.getResources(), R.drawable.bglight);
-
+        //Some android phones has buttons on the screen and with this line were gonna hide them.
         this.activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        //Imports our own font.
         Typeface typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/game_over.ttf");
 
 
@@ -116,7 +118,7 @@ public class GameWorld extends SurfaceView implements Runnable
         // Start the game
         startGame();
     }
-
+    //Creates the game. It creates player, ball and calls the method "SpawnBricks"
     private void startGame()
     {
         gameObjects.clear();
@@ -146,7 +148,7 @@ public class GameWorld extends SurfaceView implements Runnable
         gameObjects.add(player);
         Spawnbrick();
     }
-
+    //The gameloop
     @Override
     public void run()
     {
@@ -161,7 +163,7 @@ public class GameWorld extends SurfaceView implements Runnable
             control();
         }
     }
-
+    //Stops the thread if the user minimizes the game.
     static public void pause()
     {
         playing = false;
@@ -184,7 +186,7 @@ public class GameWorld extends SurfaceView implements Runnable
         gameThread = new Thread(this);
         gameThread.start();
     }
-
+    //Calls update on every game object and checks if the user has the won game.
     private void update()
     {
         if (player.lives <= 0)
@@ -231,7 +233,7 @@ public class GameWorld extends SurfaceView implements Runnable
             //First we lock the area of memory we will be drawing to
             canvas = ourHolder.lockCanvas();
 
-            // Rub out the last frame
+            // Checks isNight bool. If its true we draw black map, else light.
             if (mapChanger.isNight())
             {
                 canvas.drawBitmap(bgDark, 0, 0, paint);
@@ -240,7 +242,7 @@ public class GameWorld extends SurfaceView implements Runnable
             {
                 canvas.drawBitmap(bgLight, 0, 0, paint);
             }
-
+            //Draw the bitmap of every gameobjects
             for (GameObject go : gameObjects)
             {
                 canvas.drawBitmap(go.getBitmap(), go.getObjRect().left, go.getObjRect().top, paint);
@@ -266,6 +268,7 @@ public class GameWorld extends SurfaceView implements Runnable
             }
             else
             {
+                //Prints the current state of score and lives.
                 paint.setColor(0xFFFFFFFF);
 
                 paint.setTextSize(100);
@@ -276,7 +279,7 @@ public class GameWorld extends SurfaceView implements Runnable
                 paint.setTextAlign(Paint.Align.RIGHT);
                 canvas.drawText("LIVES: " + player.lives, screenX - 15, 50, paint);
             }
-
+            //If the player has cleared the whole map
             if (levelCleared)
             {
                 paint.setTextAlign(Paint.Align.CENTER);
@@ -302,7 +305,7 @@ public class GameWorld extends SurfaceView implements Runnable
             ourHolder.unlockCanvasAndPost(canvas);
         }
     }
-
+    //Limits the FPS to be more than 60
     private void control()
     {
         try
@@ -337,7 +340,7 @@ public class GameWorld extends SurfaceView implements Runnable
         }
         return true;
     }
-
+    //Spawns the gamebricks. It spawns the bricks.
     public void Spawnbrick()
     {
         int brickWidth = screenX / 15;
@@ -372,6 +375,7 @@ public class GameWorld extends SurfaceView implements Runnable
                         id = R.drawable.light1;
                         break;
                 }
+                //Add the brick to the GameObject list.
                 brick = new Brick(context, column * brickWidth, row * brickHeight + distanceToTop, brickWidth * (column + 1), brickHeight * (row + 1) + distanceToTop, id);
                 gameObjects.add(brick);
             }

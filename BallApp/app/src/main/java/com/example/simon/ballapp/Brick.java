@@ -16,18 +16,18 @@ import android.util.Log;
 import android.view.Display;
 
 import java.util.Random;
-
+//inherited GameObject
 public class Brick extends GameObject
 {
     private int chanceToSpawn = 20;
     Random rnd = new Random();
     int entropyNum = rnd.nextInt(100);
-
+    //Constructor
     public Brick(Context context, float screenX, float screenY, float screenHeight, float screenWidth, int id)
     {
         super(context, screenX, screenY, screenHeight, screenWidth, id);
     }
-
+    //Every time a brick gets destroyed this method has a chance to spawn a powerup
     public void destroy()
     {
         entropyNum += chanceToSpawn;
@@ -39,7 +39,7 @@ public class Brick extends GameObject
 
         GameWorld.getGameObjects().remove(this); // Remove the other object
     }
-
+    //Must implement onCollision
     @Override
     void onCollision(GameObject other)
     {

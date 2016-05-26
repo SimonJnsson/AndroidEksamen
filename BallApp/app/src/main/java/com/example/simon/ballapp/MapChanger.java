@@ -19,7 +19,9 @@ import android.util.Log;
  */
 public class MapChanger implements SensorEventListener
 {
+    //Lets us acces the sensors availble on the phone
     private SensorManager mSensorManager;
+    //Light sensor
     private Sensor mLight;
 
     public boolean isNight()
@@ -30,16 +32,20 @@ public class MapChanger implements SensorEventListener
     private boolean isNight;
     private Context context;
 
-
+    //Constructor
     public MapChanger(Context context)
     {
+        //Tells the sensormanager what the current context is.
         mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        //Declares that we want to use the light sensor
         mLight = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        //We limit the light sensor update so it wont be trying to get information faster than we really need. For performance.
         mSensorManager.registerListener(this, mLight, mSensorManager.SENSOR_DELAY_NORMAL);
         isNight = false;
         this.context = context;
     }
-
+    //Checks with the light sensor. If its under 50 were gonna change the map to dark. If not then light.
+    // f it's changing were gonna change the texture/drawable and resize the object to make sure they fit.
     @Override
     public void onSensorChanged(SensorEvent event)
     {
@@ -116,7 +122,7 @@ public class MapChanger implements SensorEventListener
             }
         }
     }
-
+    //Abstract method from SensorEventListener
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy)
     {

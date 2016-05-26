@@ -10,9 +10,9 @@ public class ExtraBall extends GameObject
 {
 
 
-    DisplayMetrics metrics;
-    int scrWidth, scrHeight;
-    float startSpeed, speedY, speedX;
+    private DisplayMetrics metrics;
+    private int scrWidth, scrHeight;
+    private float startSpeed, speedY, speedX;
     static float radius;
     private RectF startRect;
 
@@ -23,17 +23,18 @@ public class ExtraBall extends GameObject
     {
         super(context, left, top, right, bottom, id);
         paint.setColor(0xFF000000); //black
-
+        //Screen size
         metrics = Resources.getSystem().getDisplayMetrics();
+        //Set scrHeight and scrWidth to the screen size
         scrHeight = metrics.heightPixels;
         scrWidth = metrics.widthPixels;
 
         startSpeed = 12;
         speedX = -startSpeed;
         speedY = -startSpeed;
-
+        //Define radius
         radius = objRect.right - objRect.left;
-
+        //Gets the player Rectangle
         RectF playerRect = GameWorld.getPlayer().getObjRect();
         objRect.left = playerRect.left - (radius / 2) + ((playerRect.right - playerRect.left) / 2 * 1.15f);
         objRect.top = playerRect.top - radius;
@@ -46,7 +47,7 @@ public class ExtraBall extends GameObject
     public void update()
     {
         super.update();
-
+        //Makes sure that the ball wont go outside the screen
         if (objRect.right >= scrWidth || objRect.left <= 0)
         {
             speedX *= -1;
@@ -65,7 +66,7 @@ public class ExtraBall extends GameObject
 
         Move();
     }
-
+    //Moves the ball around.
     public void Move()
     {
         objRect.left += speedX;
